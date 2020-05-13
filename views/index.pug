@@ -85,7 +85,7 @@ block content
 						div(class=networkSummaryColumnClass)
 							div(class="float-left", style="height: 40px; width: 40px;")
 								span
-									i(class="fas fa-sign-out-alt fa-2x mr-2", style="margin-top: 6px; margin-left: 3px;")
+									i(class="fas fa-exchange-alt fa-2x mr-2", style="margin-top: 6px; margin-left: 3px;")
 
 							span(class="font-weight-bold") Total Transactions
 
@@ -108,7 +108,7 @@ block content
 								i(class="fas fa-bolt fa-2x mr-2", style="margin-top: 6px; margin-left: 6px;")
 
 						- var chainworkData = utils.formatLargeNumber(parseInt("0x" + getblockchaininfo.chainwork), 2);
-						span(class="font-weight-bold") Chainwork
+						span.font-weight-bold.border-dotted(data-toggle="tooltip", title=("How many hashes were needed to create the current blockchain state")) Chainwork
 						
 						p(class="lead")
 							span.mr-2.border-dotted(data-toggle="tooltip", title=getblockchaininfo.chainwork.replace(/^0+/, ''))
@@ -124,7 +124,7 @@ block content
 
 						- var difficultyData = utils.formatLargeNumber(getblockchaininfo.difficulty, 3);
 
-						span(class="font-weight-bold") Difficulty
+						span.font-weight-bold.border-dotted(data-toggle="tooltip", title=("How hard it is to mine the next block, relatively to the genesis block")) Difficulty
 
 						p(class="lead")
 							span.mr-2.border-dotted(data-toggle="tooltip", title=parseFloat(getblockchaininfo.difficulty).toLocaleString())
@@ -136,24 +136,68 @@ block content
 						div(class=networkSummaryColumnClass)
 							div(class="float-left", style="height: 40px; width: 40px;")
 								span
-									i(class="fas fa-database fa-2x mr-2", style="margin-top: 6px; margin-left: 3px;")
+									i(class="fas fa-save fa-2x mr-2", style="margin-top: 6px; margin-left: 3px;")
 							span(class="font-weight-bold") Blockchain Size
 
 							- var sizeData = utils.formatLargeNumber(getblockchaininfo.size_on_disk, 2);
 							p(class="lead") #{sizeData[0]} #{sizeData[1].abbreviation}B
+					
+					if (global.totalWalletsNumber)
+						div(class=networkSummaryColumnClass)
+							div(class="float-left", style="height: 40px; width: 40px;")
+								span
+									i(class="fas fa-wallet fa-2x mr-2", style="margin-top: 6px;")
+							span(class="font-weight-bold") Number of BTCV wallets
+							p(class="lead") #{global.totalWalletsNumber.toLocaleString()}
+
+					if (global.txAvgVolume24h)
+						div(class=networkSummaryColumnClass)
+							div(class="float-left", style="height: 40px; width: 40px;")
+								span
+									i(class="fas fa-chart-bar fa-2x mr-2", style="margin-top: 6px;")
+							span(class="font-weight-bold") Avg Tx Volume (24h)
+							p(class="lead") #{global.txAvgVolume24h.toLocaleString()} BTCV/TX
+
+					if (global.totalCoinSupply)
+						div(class=networkSummaryColumnClass)
+							div(class="float-left", style="height: 40px; width: 40px;")
+								span
+									i(class="fas fa-coins fa-2x mr-2", style="margin-top: 6px;")
+							span(class="font-weight-bold") Coins In Circulation
+							p(class="lead") #{Math.round(global.totalCoinSupply).toLocaleString()} BTCV
+					
+					if (global.totalCoinSupply && global.exchangeRates)
+						div(class=networkSummaryColumnClass)
+							div(class="float-left", style="height: 40px; width: 40px;")
+								span
+									i(class="fas fa-money-check-alt fa-2x mr-2", style="margin-top: 6px;")
+							span(class="font-weight-bold") Market Cap
+							p(class="lead") $#{Math.round(global.exchangeRates['usd'] * global.totalCoinSupply).toLocaleString() }
 
 					if (global.exchangeRates)
 						div(class=networkSummaryColumnClass)
 							div(class="float-left", style="height: 40px; width: 40px; font-size: 12px;")
 								span
-									i(class="fas fa-money-bill-wave-alt fa-2x mr-2", style="margin-top: 7px;")
+									i(class="fas fa-dollar-sign fa-2x mr-2", style="margin-top: 7px; margin-left:10px;")
 
-							span.font-weight-bold.border-dotted(data-toggle="tooltip", title=("Exchange-rate data from: " + coinConfig.exchangeRateData.jsonUrl)) Exchange Rate 
+							span.font-weight-bold.border-dotted(data-toggle="tooltip", title=("Exchange-rate data from: " + coinConfig.exchangeRateDataUSD.jsonUrl)) Exchange Rate (USD)
 
 							if (global.exchangeRates)
 								p(class="lead") #{utils.formatExchangedCurrency(1.0, "usd")}
 							else
 								p(class="lead") -
+						div(class=networkSummaryColumnClass)
+							div(class="float-left", style="height: 40px; width: 40px; font-size: 12px;")
+								span
+									i(class="fab fa-bitcoin fa-2x mr-2", style="margin-top: 7px;")
+
+							span.font-weight-bold.border-dotted(data-toggle="tooltip", title=("Exchange-rate data from: " + coinConfig.exchangeRateDataBTC.jsonUrl)) Exchange Rate (BTC)
+
+							if (global.exchangeRates)
+								p(class="lead") #{utils.formatExchangedCurrency(1.0, "btc")}
+							else
+								p(class="lead") -
+
 
 
 		include includes/tools-card.pug

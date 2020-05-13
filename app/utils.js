@@ -202,9 +202,14 @@ function formatExchangedCurrency(amount, exchangeType) {
 	if (global.exchangeRates != null && global.exchangeRates[exchangeType.toLowerCase()] != null) {
 		var dec = new Decimal(amount);
 		dec = dec.times(global.exchangeRates[exchangeType.toLowerCase()]);
-		var exchangedAmt = parseFloat(Math.round(dec * 100) / 100).toFixed(2);
-
-		return "$" + addThousandsSeparators(exchangedAmt);
+		if (exchangeType.toLowerCase() === 'usd') {
+			var exchangedAmt = parseFloat(Math.round(dec * 100) / 100).toFixed(2);
+			return "$" + addThousandsSeparators(exchangedAmt);
+		}
+		if (exchangeType.toLowerCase() === 'btc') {
+			var exchangedAmt = parseFloat(dec).toFixed(4);
+			return exchangedAmt + " BTC";
+		}
 	}
 
 	return "";
@@ -335,14 +340,14 @@ function refreshExchangeRates() {
 		return;
 	}
 
-	if (coins[config.coin].exchangeRateData) {
-		request(coins[config.coin].exchangeRateData.jsonUrl, function(error, response, body) {
+	if (coins[config.coin].exchangeRateDataUSD) {
+		request(coins[config.coin].exchangeRateDataUSD.jsonUrl, function(error, response, body) {
 			if (error == null && response && response.statusCode && response.statusCode == 200) {
 				var responseBody = JSON.parse(body);
-
-				var exchangeRates = coins[config.coin].exchangeRateData.responseBodySelectorFunction(responseBody);
-				if (exchangeRates != null) {
-					global.exchangeRates = exchangeRates;
+				var exchangeRate = coins[config.coin].exchangeRateDataUSD.responseBodySelectorFunction(responseBody);
+				if (exchangeRate != null) {
+					if (global.exchangeRates === undefined) global.exchangeRates = {};
+					global.exchangeRates["usd"] = exchangeRate;
 					global.exchangeRatesUpdateTime = new Date();
 
 					debugLog("Using exchange rates: " + JSON.stringify(global.exchangeRates) + " starting at " + global.exchangeRatesUpdateTime);
@@ -355,6 +360,86 @@ function refreshExchangeRates() {
 			}
 		});
 	}
+
+	if (coins[config.coin].exchangeRateDataBTC) {
+		request(coins[config.coin].exchangeRateDataBTC.jsonUrl, function(error, response, body) {
+			if (error == null && response && response.statusCode && response.statusCode == 200) {
+				var responseBody = JSON.parse(body);
+				var exchangeRate = coins[config.coin].exchangeRateDataBTC.responseBodySelectorFunction(responseBody);
+				if (exchangeRate != null) {
+					if (global.exchangeRates === undefined) global.exchangeRates = {};
+					global.exchangeRates['btc'] = exchangeRate;
+					global.exchangeRatesUpdateTime = new Date();
+
+					debugLog("Using exchange rates: " + JSON.stringify(global.exchangeRates) + " starting at " + global.exchangeRatesUpdateTime);
+
+				} else {
+					debugLog("Unable to get exchange rate data");
+				}
+			} else {
+				logError("39r7h2390fgewfgds", {error:error, response:response, body:body});
+			}
+		});
+	}
+}
+
+function refreshCoinSupply() {
+		request("http://api.bitcoinvault.global/status", function(error, response, body) {
+			if (error == null && response && response.statusCode && response.statusCode == 200) {
+				var responseBody = JSON.parse(body);
+				var coinsupply = null;
+				if (responseBody.total_coin_supply) {
+					coinsupply = responseBody.total_coin_supply;
+				}
+				if (responseBody.total_coin_supply) {
+					global.totalCoinSupply = responseBody.total_coin_supply;
+					global.totalCoinSupplyUpdateTime = new Date();
+
+					debugLog("Got total coin supply: " + global.totalCoinSupply);
+
+				} else {
+					debugLog("Unable to get total coin supply");
+				}
+			} else {
+				logError("39r7h2390fgewfgds", {error:error, response:response, body:body});
+			}
+		});
+}
+
+function refreshWalletsNumber() {
+	request("http://api.bitcoinvault.global/nonemptywalletsnumber", function(error, response, body) {
+		if (error == null && response && response.statusCode && response.statusCode == 200) {
+			var responseBody = JSON.parse(body);
+			if (responseBody) {
+				global.totalWalletsNumber = responseBody;
+				global.totalWalletsNumberUpdateTime = new Date();
+
+				debugLog("Got total wallets number: " + global.totalWalletsNumber);
+
+			} else {
+				debugLog("Unable to get total wallets number");
+			}
+		} else {
+			logError("35tsdgdfu4567ehbn", {error:error, response:response, body:body});
+		}
+	});
+}
+
+function refreshTxVolume() {
+	request("http://api.bitcoinvault.global/transactionvolume?period=month", function(error, response, body) {
+		if (error == null && response && response.statusCode && response.statusCode == 200) {
+			var responseBody = JSON.parse(body);
+			if (responseBody[responseBody.length - 1].avg) {
+				global.txAvgVolume24h = responseBody[responseBody.length - 1].avg;
+				global.txAvgVolume24hUpdateTime = new Date();
+				debugLog("Got 24h avg tx volume: " + global.txAvgVolume24h);
+			} else {
+				debugLog("Unable to get 24h avg tx volume.");
+			}
+		} else {
+			logError("35tsdgdfu4567ehbn", {error:error, response:response, body:body});
+		}
+	});
 }
 
 // Uses ipstack.com API
@@ -574,6 +659,9 @@ module.exports = {
 	getMinerFromCoinbaseTx: getMinerFromCoinbaseTx,
 	getBlockTotalFeesFromCoinbaseTxAndBlockHeight: getBlockTotalFeesFromCoinbaseTxAndBlockHeight,
 	refreshExchangeRates: refreshExchangeRates,
+	refreshCoinSupply: refreshCoinSupply,
+	refreshWalletsNumber: refreshWalletsNumber,
+	refreshTxVolume: refreshTxVolume,
 	parseExponentStringDouble: parseExponentStringDouble,
 	formatLargeNumber: formatLargeNumber,
 	geoLocateIpAddresses: geoLocateIpAddresses,

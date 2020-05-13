@@ -245,8 +245,24 @@ app.runOnStartup = function() {
 		utils.refreshExchangeRates();
 	}
 
+	if (global.totalCoinSupply == null) {
+		utils.refreshCoinSupply();
+	}
+
+	if (global.totalWalletsNumber == null) {
+		utils.refreshWalletsNumber();
+	}
+
+	if (global.txAvgVolume24h == null) {
+		utils.refreshTxVolume();
+	}
+
+
 	// refresh exchange rate periodically
 	setInterval(utils.refreshExchangeRates, 1800000);
+	setInterval(utils.refreshCoinSupply, 60000);
+	setInterval(utils.refreshWalletsNumber, 60000);
+	setInterval(utils.refreshTxVolume, 60000);
 
 	utils.logMemoryUsage();
 	setInterval(utils.logMemoryUsage, 5000);
