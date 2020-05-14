@@ -231,8 +231,7 @@ module.exports = {
 		responseBodySelectorFunction:function(responseBody) {
 			//console.log("Exchange Rate Response: " + JSON.stringify(responseBody));
 			if (responseBody.last_traded_price) {
-				let exchangeRate = responseBody.last_traded_price;
-				return exchangeRate;
+				return responseBody.last_traded_price;
 			}
 			return null;
 		}
@@ -242,8 +241,7 @@ module.exports = {
 		responseBodySelectorFunction:function(responseBody) {
 			//console.log("Exchange Rate Response: " + JSON.stringify(responseBody));
 			if (responseBody.last_traded_price) {
-				let exchangeRate = responseBody.last_traded_price;
-				return exchangeRate;
+				return responseBody.last_traded_price;
 			}
 			return null;
 		}

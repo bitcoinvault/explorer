@@ -241,19 +241,19 @@ app.runOnStartup = function() {
 		setInterval(getSourcecodeProjectMetadata, 3600000);
 	}
 
-	if (global.exchangeRates == null) {
+	if (!global.exchangeRates) {
 		utils.refreshExchangeRates();
 	}
 
-	if (global.totalCoinSupply == null) {
+	if (!global.totalCoinSupply) {
 		utils.refreshCoinSupply();
 	}
 
-	if (global.totalWalletsNumber == null) {
+	if (!global.totalWalletsNumber) {
 		utils.refreshWalletsNumber();
 	}
 
-	if (global.txAvgVolume24h == null) {
+	if (!global.txAvgVolume24h) {
 		utils.refreshTxVolume();
 	}
 
