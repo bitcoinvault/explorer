@@ -16,6 +16,10 @@
             "name" : "GBMiners",
             "link" : "https://gbminers.com"
         },
+        "/nonametrade/" : {
+            "name" : "nonametrade",
+            "link" : "https://pool.nonametrade.com/"
+        },
         "/A-XBT/" : {
             "name" : "A-XBT",
             "link" : "http://www.a-xbt.com"
@@ -365,6 +369,10 @@
         "YhZ5F3s9GJZBg1URrLyyGH7YuLAScLFuqK" : {
             "name" : "WDMO",
             "link" : "https://digitalmining.org"
+        },
+        "YV5dWKLEY1gjw915abhvDRcUhURYAgNJD7" : {
+            "name" : "nonametrade",
+            "link" : "https://pool.nonametrade.com/"
         },
         "1AajKXkaq2DsnDmP8ZPTrE5gH1HFo1x3AU" : {
             "name" : "Polmine",
