@@ -282,6 +282,26 @@ function getMinerFromCoinbaseTx(tx) {
 	return null;
 }
 
+function getNameFromAddress(address) {
+	if (global.miningPoolsConfigs) {
+		for (var i = 0; i < global.miningPoolsConfigs.length; i++) {
+			var miningPoolsConfig = global.miningPoolsConfigs[i];
+			for (var payoutAddress in miningPoolsConfig.payout_addresses) {
+				if (miningPoolsConfig.payout_addresses.hasOwnProperty(payoutAddress)) {
+					if (payoutAddress === address) {
+						var findedAddress = miningPoolsConfig.payout_addresses[payoutAddress];
+						if (findedAddress && findedAddress.name) {
+							return findedAddress.name;
+						}
+					}
+				}
+			}
+		}
+	}
+	return null;
+}
+
+
 function getTxTotalInputOutputValues(tx, txInputs, blockHeight) {
 	var totalInputValue = new Decimal(0);
 	var totalOutputValue = new Decimal(0);
@@ -438,6 +458,18 @@ function refreshTxVolume() {
 			}
 		} else {
 			logError("35tsdgdfu4567ehbn", {error:error, response:response, body:body});
+		}
+	});
+}
+
+function refreshMiningPoolsData() {
+	request("http://api.bitcoinvault.global/piechartdata", function(error, response, body) {
+		if (error == null && response && response.statusCode && response.statusCode == 200) {
+			var responseBody = JSON.parse(body);
+				global.miningPools = responseBody;
+				debugLog("Got mining pools data: " + global.miningPools);
+		} else {
+			logError("39r7h2390fgewfgds", {error:error, response:response, body:body});
 		}
 	});
 }
@@ -671,5 +703,7 @@ module.exports = {
 	colorHexToHsl: colorHexToHsl,
 	logError: logError,
 	buildQrCodeUrls: buildQrCodeUrls,
-	ellipsize: ellipsize
+	ellipsize: ellipsize,
+	refreshMiningPoolsData,
+	getNameFromAddress
 };

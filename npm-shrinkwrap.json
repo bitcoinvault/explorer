@@ -1,5 +1,5 @@
 {
-  "name": "btc-rpc-explorer",
+  "name": "btcv-rpc-explorer",
   "version": "1.0.3",
   "lockfileVersion": 1,
   "requires": true,
@@ -731,6 +731,28 @@
       "integrity": "sha1-mI3zP+qxke95mmE2nddsF635V+o=",
       "requires": {
         "array-find-index": "^1.0.1"
+      }
+    },
+    "d3-color": {
+      "version": "1.4.1",
+      "resolved": "https://registry.npmjs.org/d3-color/-/d3-color-1.4.1.tgz",
+      "integrity": "sha512-p2sTHSLCJI2QKunbGb7ocOh7DgTAn8IrLx21QRc/BSnodXM4sv6aLQlnfpvehFMLZEfBc6g9pH9SWQccFYfJ9Q=="
+    },
+    "d3-interpolate": {
+      "version": "1.4.0",
+      "resolved": "https://registry.npmjs.org/d3-interpolate/-/d3-interpolate-1.4.0.tgz",
+      "integrity": "sha512-V9znK0zc3jOPV4VD2zZn0sDhZU3WAE2bmlxdIwwQPPzPjvyLkd8B3JUVdS1IDUFDkWZ72c9qnv1GK2ZagTZ8EA==",
+      "requires": {
+        "d3-color": "1"
+      }
+    },
+    "d3-scale-chromatic": {
+      "version": "1.5.0",
+      "resolved": "https://registry.npmjs.org/d3-scale-chromatic/-/d3-scale-chromatic-1.5.0.tgz",
+      "integrity": "sha512-ACcL46DYImpRFMBcpk9HhtIyC7bTBR4fNOPxwVSl0LfulDAwyiHyPOTqcDG1+t5d4P9W7t/2NAuWu59aKko/cg==",
+      "requires": {
+        "d3-color": "1",
+        "d3-interpolate": "1"
       }
     },
     "dashdash": {

@@ -12,12 +12,14 @@ var bitcoinjs = require('bitcoinjs-lib');
 var sha256 = require("crypto-js/sha256");
 var hexEnc = require("crypto-js/enc-hex");
 var Decimal = require("decimal.js");
+var d3ScaleChromatic = require("d3-scale-chromatic");
 
 var utils = require('./../app/utils.js');
 var coins = require("./../app/coins.js");
 var config = require("./../app/config.js");
 var coreApi = require("./../app/api/coreApi.js");
 var addressApi = require("./../app/api/addressApi.js");
+var helpers = require("./../app/helpers/colorGenerator.js");
 
 const forceCsrf = csurf({ ignoreMethods: [] });
 
@@ -1201,6 +1203,44 @@ router.get("/fun", function(req, res, next) {
 	
 	res.render("fun");
 
+	next();
+});
+
+router.get("/mining-pools", function(req, res, next) {
+	var miningPools = {
+		addresses: [],
+		counts: [],
+	};
+	var uiTheme = req.cookies['user-setting-uiTheme'];
+	res.locals.fontColor = '#212529';
+
+	if (uiTheme == 'dark') {
+		res.locals.fontColor = '#f8f9fa';
+	}
+
+	if (global.miningPools) {
+		global.miningPools.forEach(function (miningPool) {
+			var addressName = utils.getNameFromAddress(miningPool.address);
+			if (addressName === null) {
+				addressName = miningPool.address;
+			}
+			miningPools.addresses.push(addressName);
+			miningPools.counts.push(miningPool.count);
+		});
+	}
+	var colorScale = d3ScaleChromatic.interpolateBlues;
+	var colorRangeInfo = {
+		colorStart: 0.2,
+		colorEnd: 1,
+		useEndAsStart: false,
+	};
+	var colors = helpers.generateColors(miningPools.addresses.length, colorScale, colorRangeInfo);
+	
+	miningPools.addresses = JSON.stringify(miningPools.addresses);
+	res.locals.miningPools = miningPools;
+	res.locals.colors = JSON.stringify(colors);
+
+	res.render("mining-pools");
 	next();
 });
 

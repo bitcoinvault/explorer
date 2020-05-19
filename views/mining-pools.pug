@@ -1,0 +1,44 @@
+extends layout
+
+block headContent
+	script(src="/js/chart.bundle.min.js", integrity="sha384-e4YKd0O/y4TmH7qskMQzKnOrqN83RJ7TmJ4RsBLHodJ6jHOE30I7J1uZfLdvybhc")
+	title Hashrate distribution
+
+block content
+	h1(class="h3") Hashrate distribution
+		hr
+		small(style="width: 100%;", class="monospace word-wrap") Estimated hashrate of mining pools
+	br
+	canvas(id="mining-chart")
+	hr
+
+	script.
+		var ctx = document.getElementById('mining-chart');
+		Chart.Legend.prototype.afterFit = function() {
+				this.height = this.height + 25;
+				var width = this.width;
+				this.lineWidths = this.lineWidths.map(function () {
+					return width;
+				});
+		};
+		var chart = new Chart(ctx, {
+			type: 'pie',
+			data: {
+					labels: !{miningPools.addresses},
+					datasets: [{
+							label: 'Mining pools',
+							borderWidth: 1,
+							backgroundColor: !{colors},
+							borderColor: !{colors},
+							data: [#{miningPools.counts}]
+					}]
+			},
+			options: {
+				maintainAspectRatio: false,
+				legend: {
+					labels: {
+						fontColor: '#{fontColor}'
+					}
+				}
+			}
+		});
