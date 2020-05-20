@@ -39,6 +39,16 @@ block content
 					labels: {
 						fontColor: '#{fontColor}'
 					}
+				},
+				tooltips: {
+					callbacks: {
+						label: function(tooltipItem, data) {
+							var dataLabel = data.labels[tooltipItem.index];
+							var value = ': ' + data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].toLocaleString() + '%';
+							dataLabel += value;
+							return dataLabel;
+						}
+					}
 				}
 			}
 		});
