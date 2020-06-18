@@ -166,21 +166,21 @@ block content
 							span(class="font-weight-bold") Coins In Circulation
 							p(class="lead") #{Math.round(global.totalCoinSupply).toLocaleString()} BTCV
 					
-					if (global.totalCoinSupply && global.exchangeRates)
+					if (global.totalCoinSupply && global.exchangeRates && global.exchangeRates['usdt'] && global.exchangeRates['usdtusd'])
 						div(class=networkSummaryColumnClass)
 							div(class="float-left", style="height: 40px; width: 40px;")
 								span
 									i(class="fas fa-money-check-alt fa-2x mr-2", style="margin-top: 6px;")
 							span(class="font-weight-bold") Market Cap
-							p(class="lead") $#{Math.round(global.exchangeRates['usd'] * global.totalCoinSupply).toLocaleString() }
+							p(class="lead") $#{Math.round(global.exchangeRates['usdt'] * global.exchangeRates['usdtusd'] * global.totalCoinSupply).toLocaleString() }
 
-					if (global.exchangeRates)
+					if (global.exchangeRates && global.exchangeRates['usdt'] && global.exchangeRates['usdtusd'] && global.exchangeRates['btc'])
 						div(class=networkSummaryColumnClass)
 							div(class="float-left", style="height: 40px; width: 40px; font-size: 12px;")
 								span
 									i(class="fas fa-dollar-sign fa-2x mr-2", style="margin-top: 7px; margin-left:10px;")
 
-							span.font-weight-bold.border-dotted(data-toggle="tooltip", title=("Exchange-rate data from: " + coinConfig.exchangeRateDataUSD.jsonUrl)) Exchange Rate (USD)
+							span.font-weight-bold.border-dotted(data-toggle="tooltip", title=("Exchange-rate data from: " + coinConfig.exchangeRateDataUSDT.jsonUrl)) Exchange Rate (USD)
 
 							if (global.exchangeRates)
 								p(class="lead") #{utils.formatExchangedCurrency(1.0, "usd")}

@@ -227,31 +227,31 @@ module.exports = {
 		}
 	],
 	exchangeRateDataUSDT:{
-		jsonUrl:"https://exchange-open-api.coineal.com/open/api/get_ticker?symbol=btcvusdt",
+		jsonUrl:"http://exchange-open-api.coineal.com/open/api/get_ticker?symbol=btcvusdt",
 		responseBodySelectorFunction:function(responseBody) {
 			//console.log("Exchange Rate Response: " + JSON.stringify(responseBody));
-			if (responseBody.last) {
-				return responseBody.last;
+			if (responseBody.data.last) {
+				return responseBody.data.last;
 			}
 			return null;
 		}
 	},
 	exchangeRateDataBTC:{
-		jsonUrl:"https://exchange-open-api.coineal.com/open/api/get_ticker?symbol=btcvbtc",
+		jsonUrl:"http://exchange-open-api.coineal.com/open/api/get_ticker?symbol=btcvbtc",
 		responseBodySelectorFunction:function(responseBody) {
 			//console.log("Exchange Rate Response: " + JSON.stringify(responseBody));
-			if (responseBody.last) {
-				return responseBody.last;
+			if (responseBody.data.last) {
+				return responseBody.data.last;
 			}
 			return null;
 		}
 	},
 	exchangeRateDataUSDTUSD:{
-		jsonUrl:"https://api.bitfinex.com/v1/pubticker/ustusd",
+		jsonUrl:"http://api.bitfinex.com/v1/pubticker/ustusd",
 		responseBodySelectorFunction:function(responseBody) {
 			//console.log("Exchange Rate Response: " + JSON.stringify(responseBody));
-			if (responseBody.last) {
-				return responseBody.last;
+			if (responseBody.last_price) {
+				return responseBody.last_price;
 			}
 			return null;
 		}
