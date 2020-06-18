@@ -226,22 +226,32 @@ module.exports = {
 			alertBodyHtml: "This is one of 2 'duplicate coinbase' transactions. An early bitcoin bug (fixed by <a href='https://github.com/bitcoin/bips/blob/master/bip-0030.mediawiki'>BIP30</a>) allowed identical coinbase transactions - a newer duplicate would overwrite older copies. This transaction was the coinbase transaction for <a href='/block-height/91812'>Block #91,812</a> and, ~3 hours later, <a href='/block-height/91842'>Block #91,842</a>. The 50 BTC claimed as the coinbase for block 91,812 were also overwritten and lost."
 		}
 	],
-	exchangeRateDataUSD:{
-		jsonUrl:"https://api.liquid.com/products/618",
+	exchangeRateDataUSDT:{
+		jsonUrl:"https://exchange-open-api.coineal.com/open/api/get_ticker?symbol=btcvusdt",
 		responseBodySelectorFunction:function(responseBody) {
 			//console.log("Exchange Rate Response: " + JSON.stringify(responseBody));
-			if (responseBody.last_traded_price) {
-				return responseBody.last_traded_price;
+			if (responseBody.last) {
+				return responseBody.last;
 			}
 			return null;
 		}
 	},
 	exchangeRateDataBTC:{
-		jsonUrl:"https://api.liquid.com/products/619",
+		jsonUrl:"https://exchange-open-api.coineal.com/open/api/get_ticker?symbol=btcvbtc",
 		responseBodySelectorFunction:function(responseBody) {
 			//console.log("Exchange Rate Response: " + JSON.stringify(responseBody));
-			if (responseBody.last_traded_price) {
-				return responseBody.last_traded_price;
+			if (responseBody.last) {
+				return responseBody.last;
+			}
+			return null;
+		}
+	},
+	exchangeRateDataUSDTUSD:{
+		jsonUrl:"https://api.bitfinex.com/v1/pubticker/ustusd",
+		responseBodySelectorFunction:function(responseBody) {
+			//console.log("Exchange Rate Response: " + JSON.stringify(responseBody));
+			if (responseBody.last) {
+				return responseBody.last;
 			}
 			return null;
 		}

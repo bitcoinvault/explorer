@@ -360,14 +360,14 @@ function refreshExchangeRates() {
 		return;
 	}
 
-	if (coins[config.coin].exchangeRateDataUSD) {
-		request(coins[config.coin].exchangeRateDataUSD.jsonUrl, function(error, response, body) {
+	if (coins[config.coin].exchangeRateDataUSDT) {
+		request(coins[config.coin].exchangeRateDataUSDT.jsonUrl, function(error, response, body) {
 			if (error == null && response && response.statusCode && response.statusCode == 200) {
 				var responseBody = JSON.parse(body);
-				var exchangeRate = coins[config.coin].exchangeRateDataUSD.responseBodySelectorFunction(responseBody);
+				var exchangeRate = coins[config.coin].exchangeRateDataUSDT.responseBodySelectorFunction(responseBody);
 				if (exchangeRate != null) {
 					if (global.exchangeRates === undefined) global.exchangeRates = {};
-					global.exchangeRates["usd"] = exchangeRate;
+					global.exchangeRates["usdt"] = new Decimal(exchangeRate);
 					global.exchangeRatesUpdateTime = new Date();
 
 					debugLog("Using exchange rates: " + JSON.stringify(global.exchangeRates) + " starting at " + global.exchangeRatesUpdateTime);
@@ -388,7 +388,7 @@ function refreshExchangeRates() {
 				var exchangeRate = coins[config.coin].exchangeRateDataBTC.responseBodySelectorFunction(responseBody);
 				if (exchangeRate != null) {
 					if (global.exchangeRates === undefined) global.exchangeRates = {};
-					global.exchangeRates['btc'] = exchangeRate;
+					global.exchangeRates['btc'] = new Decimal(exchangeRate);
 					global.exchangeRatesUpdateTime = new Date();
 
 					debugLog("Using exchange rates: " + JSON.stringify(global.exchangeRates) + " starting at " + global.exchangeRatesUpdateTime);
@@ -400,6 +400,34 @@ function refreshExchangeRates() {
 				logError("39r7h2390fgewfgds", {error:error, response:response, body:body});
 			}
 		});
+	}
+
+	if (coins[config.coin].exchangeRateDataUSDTUSD) {
+		request(coins[config.coin].exchangeRateDataUSDTUSD.jsonUrl, function(error, response, body) {
+			if (error == null && response && response.statusCode && response.statusCode == 200) {
+				var responseBody = JSON.parse(body);
+				var exchangeRate = coins[config.coin].exchangeRateDataUSDTUSD.responseBodySelectorFunction(responseBody);
+				if (exchangeRate != null) {
+					if (global.exchangeRates === undefined) global.exchangeRates = {};
+					global.exchangeRates['usdtusd'] = new Decimal(exchangeRate);
+					global.exchangeRatesUpdateTime = new Date();
+
+					debugLog("Using exchange rates: " + JSON.stringify(global.exchangeRates) + " starting at " + global.exchangeRatesUpdateTime);
+
+				} else {
+					debugLog("Unable to get exchange rate data");
+				}
+			} else {
+				logError("3825isdgij", {error:error, response:response, body:body});
+			}
+		});
+	}
+
+	if (global.exchangeRates['usdt']) {
+		global.exchangeRates['usd'] = global.exchangeRates['usdt']
+		if (global.exchangeRates['usdtusd']) {
+			global.exchangeRates['usd'] = global.exchangeRates['usd'].times(1.0 / global.exchangeRates['usdtusd'])
+		}
 	}
 }
 
