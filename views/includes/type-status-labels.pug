@@ -1,3 +1,14 @@
+if (tx && tx.status)
+    - var status;
+    case tx.status
+        when 'PENDING'
+            - status = 'PENDING'
+        when 'RECOVERED'
+            - status = 'CANCELED-DONE'
+        default
+            - status = 'DONE'
+    span(class="rounded text-white px-2 float-right bg-status") #{status}
+
 if (tx && tx.type)
     - var type;
     case tx.type
@@ -9,15 +20,4 @@ if (tx && tx.type)
             - type = 'CANCEL'
         default
             - type = 'STANDARD'
-    span(class="rounded text-white px-2 mr-2 float-right bg-status") #{type}
-
-if (tx && tx.status)
-    - var status;
-    case tx.status
-        when 'PENDING'
-            - type = 'PENDING'
-        when 'RECOVERED'
-            - type = 'CANCELED-DONE'
-        default
-            - type = 'DONE'
-    span(class="rounded text-white px-2 mr-3 float-right bg-type") #{status}
+    span(class="rounded text-white px-2 mr-2 float-right bg-type") #{type}

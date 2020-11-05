@@ -326,7 +326,7 @@ block content
 												span  &ndash;
 
 											div(class="row")
-												div(class="col-md-6")
+												div(class="col-md-8")
 													if (tx && tx.txid)
 														a(href=("/tx/" + tx.txid)) #{tx.txid}
 
@@ -335,7 +335,7 @@ block content
 															a(data-toggle="tooltip", title=(coinConfig.name + " Fun! See transaction for details"))
 																i(class="fas fa-certificate text-primary")
 
-												div(class="col-md-6")
+												div(class="col-md-4")
 													div(class="text-md-right")
 														if (tx.time)
 															span #{moment.utc(new Date(tx["time"] * 1000)).format("Y-MM-DD HH:mm:ss")} utc
@@ -345,11 +345,7 @@ block content
 														else
 															span(class="text-danger") Unconfirmed
 
-													div(class="text-md-right")
-														span(class="rounded text-white px-2 mr-2 float-right bg-status") PENDING
-														span(class="rounded text-white px-2 mr-3 float-right bg-type") STANDARD
-
-												div(class="col")
+												div(class="col-md-6")
 													if (addrGainsByTx[tx.txid])
 														- var currencyValue = addrGainsByTx[tx.txid];
 														span(class="text-success") +
@@ -363,6 +359,10 @@ block content
 														span(class="text-danger") -
 															include includes/value-display.pug
 													
+												div(class="col-md-6")
+													div(class="text-md-right mt-2")
+														include includes/type-status-labels.pug
+
 										div(class="card-body")
 											if (true)
 												- var txInputs = txInputsByTransaction[tx.txid];

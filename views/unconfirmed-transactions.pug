@@ -31,8 +31,7 @@ block content
 								span  &ndash; 
 								a(href=("/tx/" + tx.txid)) #{tx.txid}
 
-								span(class="rounded text-white px-2 mr-2 float-right bg-status") PENDING
-								span(class="rounded text-white px-2 mr-3 float-right bg-type") STANDARD
+								include includes/type-status-labels.pug
 									
 						div(class="card-body")
 							- var txInputs = mempoolDetails.txInputsByTransaction[tx.txid];
