@@ -1,0 +1,23 @@
+if (tx && tx.type)
+    - var type;
+    case tx.type
+        when 'TX_ALERT'
+            - type = 'SECURE'
+        when 'TX_INSTANT'
+            - type = 'SECURE FAST'
+        when 'TX_RECOVERY'
+            - type = 'CANCEL'
+        default
+            - type = 'STANDARD'
+    span(class="rounded text-white px-2 mr-2 float-right bg-status") #{type}
+
+if (tx && tx.status)
+    - var status;
+    case tx.status
+        when 'PENDING'
+            - type = 'PENDING'
+        when 'RECOVERED'
+            - type = 'CANCELED-DONE'
+        default
+            - type = 'DONE'
+    span(class="rounded text-white px-2 mr-3 float-right bg-type") #{status}
