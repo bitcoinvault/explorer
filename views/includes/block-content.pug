@@ -208,13 +208,10 @@ div(class="tab-content")
 							span(class="mr-2") Show
 							div(class="btn-group", role="group")
 								a(href=(paginationBaseUrl + "?limit=20"), class="btn btn-sm btn-primary px-2", class=((limit == 20 && txCount > limit) ? "active" : false)) 20
-
 								if (txCount > 50)
 									a(href=(paginationBaseUrl + "?limit=50"), class="btn btn-sm btn-primary px-2", class=(limit == 50 ? "active" : false)) 50
-
 								if (txCount > 100)
 									a(href=(paginationBaseUrl + "?limit=100"), class="btn btn-sm btn-primary px-2", class=(limit == 100 ? "active" : false)) 100
-
 								a(href=(paginationBaseUrl + "?limit=3000"), class="btn btn-sm btn-primary px-2", class=(limit >= txCount ? "active" : false)) all
 
 			- var fontawesomeInputName = "sign-in-alt";
@@ -237,7 +234,6 @@ div(class="tab-content")
 										i(class="fas fa-certificate text-primary")
 								
 								include ./type-status-labels.pug
-
 									
 						div(class="card-body px-lg-3 px-2")
 							//pre
