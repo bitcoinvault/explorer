@@ -57,6 +57,10 @@ div(class="tab-content")
 								include ./time-ago.pug
 
 						div(class="row")
+							div(class="summary-split-table-label") Alert Transactions
+							div(class="summary-split-table-content monospace") XXX
+
+						div(class="row")
 							div(class="summary-split-table-label") Transactions
 							div(class="summary-split-table-content monospace") #{result.getblock.tx.length.toLocaleString()}
 
@@ -85,6 +89,10 @@ div(class="tab-content")
 								div(class="summary-split-table-content monospace text-danger")
 									- var currencyValue = new Decimal(blockRewardMax).minus(coinbaseTxTotalOutputValue);
 									include ./value-display.pug
+
+						div(class="row")
+							div(class="summary-split-table-label") Alert Fees
+							div(class="summary-split-table-content monospace") XXX
 
 						if (result.getblock.weight)
 							div(class="row")
@@ -157,6 +165,11 @@ div(class="tab-content")
 							div(class="summary-split-table-label") Merkle Root
 							div(class="summary-split-table-content monospace") #{result.getblock.merkleroot}
 
+
+						div(class="row")
+							div(class="summary-split-table-label") Alert Merkle Root
+							div(class="summary-split-table-content monospace") #{result.getblock.merkleroot}
+
 						div(class="row")
 							div(class="summary-split-table-label") Chainwork
 							div(class="summary-split-table-content monospace")
@@ -226,6 +239,10 @@ div(class="tab-content")
 									span  
 									a(data-toggle="tooltip", title=(coinConfig.name + " Fun! See transaction for details"))
 										i(class="fas fa-certificate text-primary")
+								
+								span(class="rounded text-white px-2 mr-2 float-right bg-status") PENDING
+								span(class="rounded text-white px-2 mr-3 float-right bg-type") STANDARD
+
 									
 						div(class="card-body px-lg-3 px-2")
 							//pre

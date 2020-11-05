@@ -248,3 +248,11 @@ footer a:hover {
 .hljs-type, .hljs-string, .hljs-number, .hljs-selector-id, .hljs-selector-class, .hljs-quote, .hljs-template-tag, .hljs-deletion {
 	color: #3aa54f;
 }
+
+.bg-status {
+	background-color: #ecc253;
+}
+
+.bg-type {
+	background-color: #c4c4c4;
+}
