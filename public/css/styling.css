@@ -252,9 +252,15 @@ footer a:hover {
 .bg-status {
 	background-color: #ecc253;
 	font-family: "Ubuntu";
+	padding: 2px 8px 4px;
+	font-weight: 500;
+	font-size: 11px;
 }
 
 .bg-type {
 	background-color: #c4c4c4;
 	font-family: "Ubuntu";
+	padding: 2px 8px 4px;
+	font-weight: 500;
+	font-size: 11px;
 }
