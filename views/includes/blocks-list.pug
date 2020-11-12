@@ -35,10 +35,10 @@ div(class="table-responsive")
 								span ?
 
 						
-						td(class="data-cell monospace text-right") #{block.tx.length.toLocaleString()}
+						td(class="data-cell monospace text-right") #{(block.tx.length + block.atx.length).toLocaleString()}
 
 						td(class="data-cell monospace text-right")
-							- var currencyValue = new Decimal(block.totalFees).dividedBy(block.tx.length);
+							- var currencyValue = new Decimal(block.totalFees).dividedBy(block.tx.length + block.atx.length);
 							include ./value-display.pug
 							
 						td(class="data-cell monospace text-right") #{block.size.toLocaleString()}
