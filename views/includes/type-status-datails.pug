@@ -1,0 +1,26 @@
+if (result && result.getrawtransaction.type)
+    - var type;
+    case result.getrawtransaction.type
+        when 'TX_ALERT'
+            - type = 'SECURE'
+        when 'TX_INSTANT'
+            - type = 'SECURE FAST'
+        when 'TX_RECOVERY'
+            - type = 'CANCEL'
+        default
+            - type = 'STANDARD'
+    div(class="summary-split-table-label") Type
+    div(class="summary-split-table-content monospace") #{type}
+    
+if (result && result.getrawtransaction.status)
+    - var status;
+    case result.getrawtransaction.status
+        when 'PENDING'
+            - status = 'PENDING'
+        when 'RECOVERED'
+            - status = 'CANCELED-DONE'
+        default
+            - status = 'DONE'
+    br
+    div(class="summary-split-table-label") Status
+    div(class="summary-split-table-content monospace") #{status}

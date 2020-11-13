@@ -740,8 +740,12 @@ function getBlockByHashWithTransactions(blockHash, txLimit, txOffset) {
 				txids.push(block.tx[0]);
 			}
 
-			for (var i = txOffset; i < Math.min(txOffset + txLimit, block.tx.length); i++) {
-				txids.push(block.tx[i]);
+			for (var i = txOffset; i < Math.min(txOffset + txLimit, block.tx.length + block.atx.length); i++) {
+				if (i < block.tx.length) {
+					txids.push(block.tx[i]);
+				} else {
+					txids.push(block.atx[i - block.tx.length]);
+				}
 			}
 
 			getRawTransactions(txids).then(function(transactions) {

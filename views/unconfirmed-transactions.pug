@@ -30,6 +30,8 @@ block content
 								strong ##{(txIndex + offset).toLocaleString()}
 								span  &ndash; 
 								a(href=("/tx/" + tx.txid)) #{tx.txid}
+
+								include includes/type-status-labels.pug
 									
 						div(class="card-body")
 							- var txInputs = mempoolDetails.txInputsByTransaction[tx.txid];

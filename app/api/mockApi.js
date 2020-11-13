@@ -55,6 +55,7 @@ function getBlockByHeight(blockHeight) {
 			"versionHex": "20000000",
 			"merkleroot": "567a3d773b07372179ad651edc02776f851020af69b7375a68ad89557dcbff5b",
 			"tx": txids,
+			"atx": txids,
 			"time": 1529848136,
 			"mediantime": 1529846560,
 			"nonce": 3615953854,
@@ -126,6 +127,9 @@ function getBlockByHash(blockHash) {
 				"328ae013c7870ab29ffd93e1a1c01db6205229f261a91a04e73539c99861923f",
 				"b0604a447db9a0170a10a8d6cd2d68258783ae3061e5bfe5e26bcb6e76728c08",
 			],
+			"atx": [
+				"a723efc29aeae366d5824c3b0efc5b58154e4f28214f400250cbc58b9c33d948",
+			],
 			"time": 1529848136,
 			"mediantime": 1529846560,
 			"nonce": 3615953854,
@@ -158,6 +162,9 @@ function getBlocksByHash(blockHashes) {
 					"e999b2b8f1ee1e0b1adcc138d96d16e4fb65f2b422fc08d59a3b306b6a5c73d6",
 					"328ae013c7870ab29ffd93e1a1c01db6205229f261a91a04e73539c99861923f",
 					"b0604a447db9a0170a10a8d6cd2d68258783ae3061e5bfe5e26bcb6e76728c08",
+				],
+				"atx": [
+					"a723efc29aeae366d5824c3b0efc5b58154e4f28214f400250cbc58b9c33d948",
 				],
 				"time": 1529848136,
 				"mediantime": 1529846560,

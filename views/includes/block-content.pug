@@ -4,7 +4,7 @@ ul(class='nav nav-tabs mb-3')
 	li(class="nav-item")
 		a(data-toggle="tab", href="#tab-json", class="nav-link", role="tab") JSON
 
-- var txCount = result.getblock.tx.length;
+- var txCount = result.getblock.tx.length + result.getblock.atx.length;
 
 div(class="tab-content")
 	div(id="tab-details", class="tab-pane active", role="tabpanel")
@@ -60,6 +60,10 @@ div(class="tab-content")
 							div(class="summary-split-table-label") Transactions
 							div(class="summary-split-table-content monospace") #{result.getblock.tx.length.toLocaleString()}
 
+						div(class="row")
+							div(class="summary-split-table-label") Transaction Alerts
+							div(class="summary-split-table-content monospace") #{result.getblock.atx.length.toLocaleString()}
+								
 						div(class="row")
 							div(class="summary-split-table-label") Total Fees
 							div(class="summary-split-table-content monospace")
@@ -157,6 +161,11 @@ div(class="tab-content")
 							div(class="summary-split-table-label") Merkle Root
 							div(class="summary-split-table-content monospace") #{result.getblock.merkleroot}
 
+
+						div(class="row")
+							div(class="summary-split-table-label") Alert Merkle Root
+							div(class="summary-split-table-content monospace") #{result.getblock.merkleroot}
+
 						div(class="row")
 							div(class="summary-split-table-label") Chainwork
 							div(class="summary-split-table-content monospace")
@@ -199,13 +208,10 @@ div(class="tab-content")
 							span(class="mr-2") Show
 							div(class="btn-group", role="group")
 								a(href=(paginationBaseUrl + "?limit=20"), class="btn btn-sm btn-primary px-2", class=((limit == 20 && txCount > limit) ? "active" : false)) 20
-								
 								if (txCount > 50)
 									a(href=(paginationBaseUrl + "?limit=50"), class="btn btn-sm btn-primary px-2", class=(limit == 50 ? "active" : false)) 50
-								
 								if (txCount > 100)
 									a(href=(paginationBaseUrl + "?limit=100"), class="btn btn-sm btn-primary px-2", class=(limit == 100 ? "active" : false)) 100
-								
 								a(href=(paginationBaseUrl + "?limit=3000"), class="btn btn-sm btn-primary px-2", class=(limit >= txCount ? "active" : false)) all
 
 			- var fontawesomeInputName = "sign-in-alt";
@@ -226,6 +232,8 @@ div(class="tab-content")
 									span  
 									a(data-toggle="tooltip", title=(coinConfig.name + " Fun! See transaction for details"))
 										i(class="fas fa-certificate text-primary")
+								
+								include ./type-status-labels.pug
 									
 						div(class="card-body px-lg-3 px-2")
 							//pre
@@ -256,12 +264,15 @@ div(class="tab-content")
 	div(id="tab-json", class="tab-pane", role="tabpanel")
 		- var blockDetails = JSON.parse(JSON.stringify(result.getblock));
 		- blockDetails.tx = "See 'Transaction IDs'";
+		- blockDetails.atx = "See 'Transaction Alert IDs'";
 
 		ul(class='nav nav-pills mb-3')
 			li(class="nav-item")
 				a(data-toggle="tab", href="#tab-json-block-summary", class="nav-link active", role="tab") Block Summary
 			li(class="nav-item")
 				a(data-toggle="tab", href="#tab-json-tx-ids", class="nav-link", role="tab") Transaction IDs
+			li(class="nav-item")
+				a(data-toggle="tab", href="#tab-json-atx-ids", class="nav-link", role="tab") Transaction Alert IDs
 
 		div(class="tab-content")
 			div(id="tab-json-block-summary", class="tab-pane active", role="tabpanel")
@@ -271,4 +282,8 @@ div(class="tab-content")
 			div(id="tab-json-tx-ids", class="tab-pane", role="tabpanel")
 				pre
 					code(class="json bg-light") #{JSON.stringify(result.getblock.tx, null, 4)}
+
+			div(id="tab-json-atx-ids", class="tab-pane", role="tabpanel")
+				pre
+					code(class="json bg-light") #{JSON.stringify(result.getblock.atx, null, 4)}
 
