@@ -1,23 +1,24 @@
-if (tx && tx.status)
-    - var status;
-    case tx.status
-        when 'PENDING'
-            - status = 'PENDING'
-        when 'RECOVERED'
-            - status = 'CANCELED-DONE'
-        default
-            - status = 'DONE'
-    span(class="rounded text-white px-2 float-right bg-status") #{status}
+div.type-status-labels-container
+    if (tx && tx.status)
+        - var status;
+        case tx.status
+            when 'PENDING'
+                - status = 'PENDING'
+            when 'RECOVERED'
+                - status = 'CANCELED-DONE'
+            default
+                - status = 'DONE'
+        span(class="rounded text-white px-2 bg-status type-status-label") #{status}
 
-if (tx && tx.type)
-    - var type;
-    case tx.type
-        when 'TX_ALERT'
-            - type = 'SECURE'
-        when 'TX_INSTANT'
-            - type = 'SECURE FAST'
-        when 'TX_RECOVERY'
-            - type = 'CANCEL'
-        default
-            - type = 'STANDARD'
-    span(class="rounded text-white px-2 mr-2 float-right bg-type") #{type}
+    if (tx && tx.type)
+        - var type;
+        case tx.type
+            when 'TX_ALERT'
+                - type = 'SECURE'
+            when 'TX_INSTANT'
+                - type = 'SECURE FAST'
+            when 'TX_RECOVERY'
+                - type = 'CANCEL'
+            default
+                - type = 'STANDARD'
+        span(class="rounded text-white px-2 mr-2 float-right bg-type type-status-label") #{type}
