@@ -130,9 +130,6 @@ html(lang="en")
 
 				div(style="margin-bottom: 30px;")
 
-				if (config.demoSite && !crawlerBot)
-					include ./includes/donation-modal.pug
-
 		footer(class="footer border-top border-primary bg-dark pt-3 pb-1 px-3 text-white", style="border-width: 5px !important;")
 			div(class="container")
 				div(class="row")
@@ -178,13 +175,7 @@ html(lang="en")
 										a(href="https://lnd-admin.chaintools.io", class="mr-2", title="LND Admin")
 											img(src=("/img/logo/lnd-admin.png"), style="width: 32px; height: 32px;", alt="LND Admin")
 
-					div(class="col-md-7 text-md-right")
-						dl
-							dd
-								button.btn.btn-primary(type="button", class="btn btn-primary", data-toggle="modal", data-target="#exampleModalCenter")
-									i(class="fas fa-heart mr-2")
-									span Support Development
-		
+				
 		script(src="/js/jquery.min.js", integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=")
 		script(src="/js/popper.min.js", integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut")
 		script(src="/js/bootstrap.min.js", integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM")
