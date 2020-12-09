@@ -8,7 +8,7 @@ div.type-status-labels-container
                 - status = 'CANCELED-DONE'
             default
                 - status = 'DONE'
-        span(class="rounded text-white px-2 bg-status type-status-label") #{status}
+        span(class="rounded text-white px-2 bg-status float-right type-status-label") #{status}
 
     if (tx && tx.type)
         - var type;
