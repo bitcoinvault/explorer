@@ -99,7 +99,26 @@ strong {
 	overflow: hidden;
 }
 
+@media (max-width: 376px) {
+	.pagination-wrap .page-link {
+		padding: 0.25rem 0.5rem;
+		font-size: 0.875rem;
+	}
+}
+
+@media (min-width: 377px) {
+	.pagination-wrap .page-link {
+		padding: 0.35rem 0.75rem;
+		font-size: 0.91rem;
+	}
+}
+
 @media (min-width: 576px) {
+	.pagination-wrap .page-link {
+		padding: 0.50rem 1rem;
+		font-size: 0.95rem;
+	}
+
 	.summary-table-label {
 		max-width: 100%;
 		text-align: left;
@@ -184,6 +203,11 @@ strong {
 @media (min-width: 1200px) {
 	.container {
 		max-width: 1160px;
+	}
+
+	.pagination-wrap .page-link {
+		padding: 0.52rem 1.05rem;
+		font-size: 1rem;
 	}
 
 	.summary-table-label {

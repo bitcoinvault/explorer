@@ -4,12 +4,12 @@
 - }
 
 nav(aria-label="Page navigation")
-	ul(class="pagination pagination-lg justify-content-center flex-wrap")
+	ul(class="pagination pagination-wrap justify-content-center flex-wrap")
 		li(class="page-item", class=(pageNumber == 1 ? "disabled" : false))
 			a(class="page-link", href=(pageNumber == 1 ? "javascript:void(0)" : paginationUrlFunction(pageNumber - 1)), aria-label="Previous")
 				span(aria-hidden="true") &laquo;
 		each x, xIndex in pageNumbers
-			if (x >= (pageNumber - 4) && x <= (pageNumber + 4) || xIndex == 0 || xIndex == (pageNumbers.length - 1))
+			if (x >= (pageNumber - 2) && x <= (pageNumber + 2) || xIndex == 0 || xIndex == (pageNumbers.length - 1))
 				li(class="page-item", class=(x == pageNumber ? "active" : false))
 					a(class="page-link", href=(paginationUrlFunction(x))) #{x}
 
