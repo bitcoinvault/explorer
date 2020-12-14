@@ -444,7 +444,7 @@ function refreshExchangeRates() {
 					debugLog("Unable to get exchange rate data");
 				}
 			} else {
-				logError("3825isdgij", {error:error, response:response, body:body});
+				logError("utils:refreshExchangeRates", {error:error, response:response, body:body});
 			}
 		});
 	}
