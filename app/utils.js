@@ -201,18 +201,18 @@ function addThousandsSeparators(x) {
 function formatExchangedCurrency(amount, exchangeType) {
 	if (global.exchangeRates != null) {
 		var dec = new Decimal(amount);
-		if (exchangeType.toLowerCase() === 'usd' && global.exchangeRates['usdt'] != null && global.exchangeRates['usdtusd'] != null) {
-			dec = dec.times(global.exchangeRates['usdt']).times(global.exchangeRates['usdtusd']);
+		if (exchangeType.toLowerCase() === coins.currency.usd && global.exchangeRates[coins.currency.usdt] != null && global.exchangeRates[coins.currency.usdtusd] != null) {
+			dec = dec.times(global.exchangeRates[coins.currency.usdt]).times(global.exchangeRates[coins.currency.usdtusd]);
 			var exchangedAmt = parseFloat(Math.round(dec * 100) / 100).toFixed(2);
 			return addThousandsSeparators(exchangedAmt) + " $";
 		}
-		if (exchangeType.toLowerCase() === 'eur' && global.exchangeRates['btceur'] != null && global.exchangeRates['btc'] != null) {
-			dec = dec.times(global.exchangeRates['btceur']).times(global.exchangeRates['btc']);
+		if (exchangeType.toLowerCase() === coins.currency.eur && global.exchangeRates[coins.currency.btceur] !== null && global.exchangeRates[coins.currency.btc] !== null) {
+			dec = dec.times(global.exchangeRates[coins.currency.btceur]).times(global.exchangeRates[coins.currency.btc]);
 			var exchangedAmt = parseFloat(Math.round(dec * 100) / 100).toFixed(2);
 			return addThousandsSeparators(exchangedAmt) + " €";
 		}
-		if (exchangeType.toLowerCase() === 'btc' && global.exchangeRates['btc'] != null) {
-			dec = dec.times(global.exchangeRates['btc'])
+		if (exchangeType.toLowerCase() === coins.currency.btc && global.exchangeRates[coins.currency.btc] != null) {
+			dec = dec.times(global.exchangeRates[coins.currency.btc])
 			var exchangedAmt = parseFloat(dec).toFixed(4);
 			return exchangedAmt + " BTC";
 		}
