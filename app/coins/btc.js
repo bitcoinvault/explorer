@@ -256,6 +256,16 @@ module.exports = {
 			return null;
 		}
 	},
+	exchangeRateDataBTCEUR:{
+		jsonUrl:"http://api.bitfinex.com/v1/pubticker/btceur",
+		responseBodySelectorFunction:function(responseBody) {
+			//console.log("Exchange Rate Response: " + JSON.stringify(responseBody));
+			if (responseBody.last_price) {
+				return responseBody.last_price;
+			}
+			return null;
+		}
+	},
 	blockRewardFunction:function(blockHeight) {
 
 		if (blockHeight < 29850 + 8*26600) {

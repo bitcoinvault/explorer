@@ -204,7 +204,12 @@ function formatExchangedCurrency(amount, exchangeType) {
 		if (exchangeType.toLowerCase() === 'usd' && global.exchangeRates['usdt'] != null && global.exchangeRates['usdtusd'] != null) {
 			dec = dec.times(global.exchangeRates['usdt']).times(global.exchangeRates['usdtusd']);
 			var exchangedAmt = parseFloat(Math.round(dec * 100) / 100).toFixed(2);
-			return "$" + addThousandsSeparators(exchangedAmt);
+			return addThousandsSeparators(exchangedAmt) + " $";
+		}
+		if (exchangeType.toLowerCase() === 'eur' && global.exchangeRates['btceur'] != null && global.exchangeRates['btc'] != null) {
+			dec = dec.times(global.exchangeRates['btceur']).times(global.exchangeRates['btc']);
+			var exchangedAmt = parseFloat(Math.round(dec * 100) / 100).toFixed(2);
+			return addThousandsSeparators(exchangedAmt) + " €";
 		}
 		if (exchangeType.toLowerCase() === 'btc' && global.exchangeRates['btc'] != null) {
 			dec = dec.times(global.exchangeRates['btc'])
@@ -410,6 +415,27 @@ function refreshExchangeRates() {
 				if (exchangeRate != null) {
 					if (global.exchangeRates === undefined) global.exchangeRates = {};
 					global.exchangeRates['usdtusd'] = exchangeRate;
+					global.exchangeRatesUpdateTime = new Date();
+
+					debugLog("Using exchange rates: " + JSON.stringify(global.exchangeRates) + " starting at " + global.exchangeRatesUpdateTime);
+
+				} else {
+					debugLog("Unable to get exchange rate data");
+				}
+			} else {
+				logError("3825isdgij", {error:error, response:response, body:body});
+			}
+		});
+	}
+
+	if (coins[config.coin].exchangeRateDataBTCEUR) {
+		request(coins[config.coin].exchangeRateDataBTCEUR.jsonUrl, function(error, response, body) {
+			if (error == null && response && response.statusCode && response.statusCode == 200) {
+				var responseBody = JSON.parse(body);
+				var exchangeRate = coins[config.coin].exchangeRateDataBTCEUR.responseBodySelectorFunction(responseBody);
+				if (exchangeRate != null) {
+					if (global.exchangeRates === undefined) global.exchangeRates = {};
+					global.exchangeRates['btceur'] = exchangeRate;
 					global.exchangeRatesUpdateTime = new Date();
 
 					debugLog("Using exchange rates: " + JSON.stringify(global.exchangeRates) + " starting at " + global.exchangeRatesUpdateTime);
