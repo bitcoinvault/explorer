@@ -1,8 +1,8 @@
-- var currencyFormatInfo = utils.getCurrencyFormatInfo(currencyFormatType);
+- const currencyFormatInfo = utils.getCurrencyFormatInfo(currencyFormatType);
 
 if (currencyValue > 0)
-	- var formattedCurrency = currencyFormatType === "eur" || currencyFormatType === "usd" ? utils.formatExchangedCurrency(currencyValue, currencyFormatType) : utils.formatCurrencyAmount(currencyValue, currencyFormatType);
-	- var parts = formattedCurrency.split(" ");
+	- const formattedCurrency = currencyFormatType === "eur" || currencyFormatType === "usd" ? utils.formatExchangedCurrency(currencyValue, currencyFormatType) : utils.formatCurrencyAmount(currencyValue, currencyFormatType);
+	- const parts = formattedCurrency.split(" ");
 
 	span.monospace #{parts[0]}
 		if (currencyFormatInfo.type == "native")
