@@ -1,0 +1,7 @@
+{
+  "baseUrl": "https://explorer.bitcoinvault.global/",
+  "env": {
+    "video": "false",
+    "screenshotOnRunFailure": "false"
+  }
+}

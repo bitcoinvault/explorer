@@ -1,0 +1,7 @@
+{
+  "baseUrl": "http://18.196.199.105/",
+  "env": {
+    "video": "false",
+    "screenshotOnRunFailure": "false"
+  }
+}
