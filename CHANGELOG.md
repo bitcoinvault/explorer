@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/bitcoinvault/explorer/compare/v1.0.4...v1.1.0) (2021-02-24)
+
+
+### Features
+
+* Get api address from env. ([960c052](https://github.com/bitcoinvault/explorer/commit/960c052bbbe0bda579813e89fc1c786414145963))
+
 ### [1.0.4](https://github.com/bitcoinvault/explorer/compare/v1.0.3...v1.0.4) (2021-02-24)
 
 
