@@ -36,7 +36,7 @@ jobs:
 
       - run: npx semantic-release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TS_GH_TOKEN }}
 
       - name: Pull docker docker image (for layers that we dont have)
         continue-on-error: true
