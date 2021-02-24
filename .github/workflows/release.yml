@@ -20,6 +20,9 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
       - uses: actions/setup-node@v2
+      # Create key to be able to checkout public GitHub repositories during npm install
+      - run: ssh-keygen -t rsa -m PEM -b 4096 -C npm@actions -f ~/.ssh/id_rsa -N ""
+
       - uses: bahmutov/npm-install@v1
 
       - name: Configure AWS credentials
