@@ -33,7 +33,7 @@
     "debug": "~4.1.1",
     "decimal.js": "10.1.1",
     "dotenv": "^8.0.0",
-    "electrum-client": "git+https://github.com/chaintools/node-electrum-client.git#43a999036f9c5",
+    "electrum-client": "git+https://git@github.com/chaintools/node-electrum-client.git#43a999036f9c5",
     "express": "^4.17.1",
     "express-session": "1.16.1",
     "husky": "^4.3.0",

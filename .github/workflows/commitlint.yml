@@ -22,10 +22,7 @@ jobs:
         with:
           node-version: 10
 
-      # Create key to be able to checkout public GitHub repositories during npm install
-      - run: ssh-keygen -t rsa -m PEM -b 4096 -C npm@actions -f ~/.ssh/id_rsa -N ""
-
-      - run: npm ci
+      - uses: bahmutov/npm-install@v1
 
       - name: commitlint
         run: |
