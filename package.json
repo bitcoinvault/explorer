@@ -1,6 +1,6 @@
 {
   "name": "btcv-rpc-explorer",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Explorer for Bitcoin Vault and RPC-compatible blockchains",
   "private": false,
   "bin": "bin/cli.js",
