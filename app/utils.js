@@ -451,7 +451,7 @@ function refreshExchangeRates() {
 }
 
 function refreshCoinSupply() {
-		request("http://api.bitcoinvault.global/status", function(error, response, body) {
+		request(process.env.BTCEXP_API_URL + "/status", function(error, response, body) {
 			if (error == null && response && response.statusCode && response.statusCode == 200) {
 				var responseBody = JSON.parse(body);
 				var coinsupply = null;
@@ -474,7 +474,7 @@ function refreshCoinSupply() {
 }
 
 function refreshWalletsNumber() {
-	request("http://api.bitcoinvault.global/nonemptywalletsnumber", function(error, response, body) {
+	request(process.env.BTCEXP_API_URL + "/nonemptywalletsnumber", function(error, response, body) {
 		if (error == null && response && response.statusCode && response.statusCode == 200) {
 			var responseBody = JSON.parse(body);
 			if (responseBody) {
@@ -493,7 +493,7 @@ function refreshWalletsNumber() {
 }
 
 function refreshTxVolume() {
-	request("http://api.bitcoinvault.global/transactionvolume?period=month", function(error, response, body) {
+	request(process.env.BTCEXP_API_URL + "/transactionvolume?period=month", function(error, response, body) {
 		if (error == null && response && response.statusCode && response.statusCode == 200) {
 			var responseBody = JSON.parse(body);
 			if (responseBody[responseBody.length - 1].avg) {
@@ -510,7 +510,7 @@ function refreshTxVolume() {
 }
 
 function refreshMiningPoolsData() {
-	request("http://api.bitcoinvault.global/piechartdata", function(error, response, body) {
+	request(process.env.BTCEXP_API_URL + "/piechartdata", function(error, response, body) {
 		if (error == null && response && response.statusCode && response.statusCode == 200) {
 			var responseBody = JSON.parse(body);
 				global.miningPools = responseBody;
