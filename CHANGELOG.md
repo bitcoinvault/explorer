@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/bitcoinvault/explorer/compare/v1.1.0...v1.2.0) (2021-02-26)
+
+
+### Features
+
+* **docker:** use NodeJS 12 during build and execution ([c3ab162](https://github.com/bitcoinvault/explorer/commit/c3ab1625d2ce6d6ae888284f1c02538677f26f44))
+
 ## [1.1.0](https://github.com/bitcoinvault/explorer/compare/v1.0.4...v1.1.0) (2021-02-24)
 
 
