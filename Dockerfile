@@ -1,9 +1,9 @@
-FROM node:10 as builder
+FROM node:12 as builder
 WORKDIR /workspace
 COPY . .
 RUN npm install
 
-FROM node:10-alpine
+FROM node:12-alpine
 WORKDIR /workspace
 COPY --from=builder /workspace .
 CMD npm start
