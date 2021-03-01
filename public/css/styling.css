@@ -99,6 +99,11 @@ strong {
 	overflow: hidden;
 }
 
+table,
+table.dataTable {
+  border-collapse: collapse !important;
+}
+
 @media (max-width: 376px) {
 	.pagination-wrap .page-link {
 		padding: 0.25rem 0.5rem;
@@ -263,9 +268,13 @@ strong {
 	.tx-io-value { max-width: 30%; text-align: right; padding-right: 25px; }
 }
 
-
-
-
+@media only screen and (max-width: 991px) {
+	.table-responsive-sm {
+	  overflow: scroll;
+	  display: block;
+	  width: 100%;
+	}
+}
 
 footer a {
 	color: #ddd;
