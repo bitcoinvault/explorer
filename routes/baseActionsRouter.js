@@ -1218,6 +1218,12 @@ router.get("/richest-wallets", function(req, res, next) {
 	next();
 });
 
+router.get("/coin-distribution", function(req, res, next) {
+	res.render("coin-distribution");
+
+	next();
+});
+
 router.get("/mining-pools", function(req, res, next) {
 	var miningPools = {
 		addresses: [],
