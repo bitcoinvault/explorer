@@ -522,7 +522,7 @@ function refreshMiningPoolsData() {
 }
 
 function getRichestWallets() {
-	request.get(process.env.BVAULT_API_URL + "/richestwallets?limit=100", function(error, response, body) {
+	request.get(process.env.BTCEXP_API_URL + "/richestwallets?limit=100", function(error, response, body) {
 		if (error == null && response && response.statusCode && response.statusCode == 200) {
 			var responseBody = JSON.parse(body);
 			global.richestWallets = responseBody;
