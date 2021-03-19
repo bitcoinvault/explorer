@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/bitcoinvault/explorer/compare/v1.2.0...v1.3.0) (2021-03-19)
+
+
+### Features
+
+* **richestwallets:** add richests wallets and coin distribution subpage ([#21](https://github.com/bitcoinvault/explorer/issues/21)) ([ca3b755](https://github.com/bitcoinvault/explorer/commit/ca3b7558d8711182e9f0c3267e5409aab84b27b7))
+
 ## [1.2.0](https://github.com/bitcoinvault/explorer/compare/v1.1.0...v1.2.0) (2021-02-26)
 
 
