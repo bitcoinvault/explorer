@@ -521,6 +521,18 @@ function refreshMiningPoolsData() {
 	});
 }
 
+function getRichestWallets() {
+	request.get(process.env.BTCEXP_API_URL + "/richestwallets?limit=100", function(error, response, body) {
+		if (error == null && response && response.statusCode && response.statusCode == 200) {
+			var responseBody = JSON.parse(body);
+			global.richestWallets = responseBody;
+			debugLog("Got richest wallet data: " + global.richestWallets);
+		} else {
+			logError("39r7h2390fgewfgds", {error:error, response:response, body:body});
+		}
+	});
+}
+
 // Uses ipstack.com API
 function geoLocateIpAddresses(ipAddresses, provider) {
 	return new Promise(function(resolve, reject) {
@@ -745,6 +757,7 @@ module.exports = {
 	formatLargeNumber: formatLargeNumber,
 	geoLocateIpAddresses: geoLocateIpAddresses,
 	getTxTotalInputOutputValues: getTxTotalInputOutputValues,
+	getRichestWallets: getRichestWallets,
 	rgbToHsl: rgbToHsl,
 	colorHexToRgb: colorHexToRgb,
 	colorHexToHsl: colorHexToHsl,

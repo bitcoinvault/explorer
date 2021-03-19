@@ -157,7 +157,9 @@ module.exports = {
 		{name:"Unconfirmed Transactions", url:"/unconfirmed-tx", desc:"Browse unconfirmed/pending transactions.", fontawesome:"fas fa-unlock-alt"},
 
 		{name:"RPC Browser", url:"/rpc-browser", desc:"Browse the RPC functionality of this node. See docs and execute commands.", fontawesome:"fas fa-book"},
-		{name:"Hashrate distribution", url:"/mining-pools", desc:"Estimated hashrate of mining pools.", fontawesome:"fas fa-chart-pie"}
+		{name:"Hashrate distribution", url:"/mining-pools", desc:"Estimated hashrate of mining pools.", fontawesome:"fas fa-chart-pie"},
+		{name:"Richest Wallets", url:"/richest-wallets", desc:"Richest wallets list.", fontawesome:"fas fa-money-bill-wave"},
+		{name:"Coin distribution", url:"/coin-distribution", desc:"Coin distribution.", fontawesome:"fas fa-chart-pie"}
 	],
 
 	donations:{

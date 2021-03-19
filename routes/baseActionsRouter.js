@@ -1208,6 +1208,22 @@ router.get("/fun", function(req, res, next) {
 	next();
 });
 
+router.get("/richest-wallets", function(req, res, next) {
+	var richestWallets = global.richestWallets;
+
+	res.locals.richestWallets = richestWallets;
+
+	res.render("richest-wallets");
+
+	next();
+});
+
+router.get("/coin-distribution", function(req, res, next) {
+	res.render("coin-distribution");
+
+	next();
+});
+
 router.get("/mining-pools", function(req, res, next) {
 	var miningPools = {
 		addresses: [],
