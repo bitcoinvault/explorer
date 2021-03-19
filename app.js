@@ -210,7 +210,7 @@ app.runOnStartup = function() {
 			if (config.electrumXServers && config.electrumXServers.length > 0) {
 				electrumAddressApi.connectToServers().then(function() {
 					global.electrumAddressApi = electrumAddressApi;
-					
+
 				}).catch(function(err) {
 					utils.logError("31207ugf4e0fed", err, {electrumXServers:config.electrumXServers});
 				});
@@ -230,7 +230,7 @@ app.runOnStartup = function() {
 
 				return;
 			}
-			
+
 			global.sourcecodeVersion = log.all[0].hash.substring(0, 10);
 			global.sourcecodeDate = log.all[0].date.substring(0, "0000-00-00".length);
 		});
@@ -259,6 +259,10 @@ app.runOnStartup = function() {
 
 	if (!global.miningPools) {
 		utils.refreshMiningPoolsData();
+	}
+
+	if (!global.richestWallets) {
+		utils.getRichestWallets();
 	}
 
 	// refresh exchange rate periodically

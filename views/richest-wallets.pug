@@ -1,0 +1,25 @@
+extends layout
+
+block headContent
+    title Richest Wallets
+
+block content
+    h1(class="h3") Richest Wallets
+    hr
+
+    div(class="table-responsive")
+        table(class="table table-hover mt-4")
+            thead
+                tr
+                    th(class="data-header") Address
+                    th(class="data-header") Amount
+                    th(class="data-header") Percentage of total
+            tbody
+                each item, index in global.richestWallets
+                    tr
+                        td(class="data-cell")
+                            a(href=("/address/" + item.address), title=item.address, data-toggle="tooltip") #{item.address}
+
+                        td(class="data-cell") #{item.amount}
+
+                        td(class="data-cell") #{item.percentage_of_total}
