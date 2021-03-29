@@ -1209,13 +1209,13 @@ router.get("/fun", function(req, res, next) {
 });
 
 router.get("/richest-wallets", function(req, res, next) {
-	var richestWallets = utils.getRichestWallets();
+	utils.getRichestWallets().then(function(results) {
+		global.richestWallets = results;
 
-	res.locals.richestWallets = richestWallets;
+		res.render("richest-wallets");
 
-	res.render("richest-wallets");
-
-	next();
+		next();
+	});
 });
 
 router.get("/coin-distribution", function(req, res, next) {
