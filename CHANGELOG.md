@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.3.1](https://github.com/bitcoinvault/explorer/compare/v1.3.0...v1.3.1) (2021-03-29)
+
+
+### Bug Fixes
+
+* remove chart title and add headline text and refresh richestwallets ([#22](https://github.com/bitcoinvault/explorer/issues/22)) ([#23](https://github.com/bitcoinvault/explorer/issues/23)) ([dc34328](https://github.com/bitcoinvault/explorer/commit/dc343287e07bf8e739f06c3ca3c7625e75da4535))
+
 ## [1.3.0](https://github.com/bitcoinvault/explorer/compare/v1.2.0...v1.3.0) (2021-03-19)
 
 
