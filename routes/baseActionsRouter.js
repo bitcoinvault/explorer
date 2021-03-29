@@ -1209,7 +1209,7 @@ router.get("/fun", function(req, res, next) {
 });
 
 router.get("/richest-wallets", function(req, res, next) {
-	var richestWallets = global.richestWallets;
+	var richestWallets = utils.getRichestWallets();
 
 	res.locals.richestWallets = richestWallets;
 
