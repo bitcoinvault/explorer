@@ -261,10 +261,6 @@ app.runOnStartup = function() {
 		utils.refreshMiningPoolsData();
 	}
 
-	if (!global.richestWallets) {
-		utils.getRichestWallets();
-	}
-
 	// refresh exchange rate periodically
 	setInterval(utils.refreshExchangeRates, 60000);
 	setInterval(utils.refreshCoinSupply, 60000);
