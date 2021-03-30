@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.3.2](https://github.com/bitcoinvault/explorer/compare/v1.3.1...v1.3.2) (2021-03-30)
+
+
+### Bug Fixes
+
+* change coin distribution header ([#24](https://github.com/bitcoinvault/explorer/issues/24)) ([3195a3a](https://github.com/bitcoinvault/explorer/commit/3195a3a144f28b79cebca42d148af5401a868974))
+
 ### [1.3.1](https://github.com/bitcoinvault/explorer/compare/v1.3.0...v1.3.1) (2021-03-29)
 
 
