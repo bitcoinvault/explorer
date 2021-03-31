@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.3.4](https://github.com/bitcoinvault/explorer/compare/v1.3.3...v1.3.4) (2021-03-31)
+
+
+### Bug Fixes
+
+* Remove unnecessary comma ([6f210d0](https://github.com/bitcoinvault/explorer/commit/6f210d0af7e573ec60e7f00d7f3def81ffbd1f3a))
+
 ### [1.3.3](https://github.com/bitcoinvault/explorer/compare/v1.3.2...v1.3.3) (2021-03-31)
 
 ### [1.3.2](https://github.com/bitcoinvault/explorer/compare/v1.3.1...v1.3.2) (2021-03-30)
