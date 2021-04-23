@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.3.5](https://github.com/bitcoinvault/explorer/compare/v1.3.4...v1.3.5) (2021-04-23)
+
+
+### Bug Fixes
+
+* change storage for session ([3b97009](https://github.com/bitcoinvault/explorer/commit/3b970092451db0a3407a7598583ea031c56c05fd))
+
 ### [1.3.4](https://github.com/bitcoinvault/explorer/compare/v1.3.3...v1.3.4) (2021-03-31)
 
 
