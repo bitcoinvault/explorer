@@ -8,30 +8,6 @@ ul(class='nav nav-tabs mb-3')
 
 div(class="tab-content")
 	div(id="tab-details", class="tab-pane active", role="tabpanel")
-		if (global.specialBlocks && global.specialBlocks[result.getblock.hash])
-			div(class="alert alert-primary shadow-sm", style="padding-bottom: 0;")
-				div(class="float-left", style="width: 55px; height: 55px; font-size: 18px;")
-					i(class="fas fa-certificate fa-2x", style="margin-top: 10px;")
-				h4(class="alert-heading h6 font-weight-bold") #{coinConfig.name} Fun
-
-				// special transaction info
-				- var sbInfo = global.specialBlocks[result.getblock.hash];
-				if (sbInfo.alertBodyHtml)
-					p
-						span !{sbInfo.alertBodyHtml}
-
-						if (sbInfo.referenceUrl && sbInfo.referenceUrl.trim().length > 0 && sbInfo.alertBodyHtml.indexOf(sbInfo.referenceUrl) == -1)
-							span  
-								a(href=sbInfo.referenceUrl) Read more
-
-				else
-					p
-						span #{sbInfo.summary}
-
-						if (sbInfo.referenceUrl && sbInfo.referenceUrl.trim().length > 0)
-							span  
-								a(href=sbInfo.referenceUrl) Read more
-
 		div(class="card mb-3 shadow-sm")
 			div(class="card-header")
 				span(class="h6") Summary
@@ -228,11 +204,6 @@ div(class="tab-content")
 								span  &ndash; 
 								a(href=("/tx/" + tx.txid)) #{tx.txid}
 
-								if (global.specialTransactions && global.specialTransactions[tx.txid])
-									span  
-									a(data-toggle="tooltip", title=(coinConfig.name + " Fun! See transaction for details"))
-										i(class="fas fa-certificate text-primary")
-								
 								include ./type-status-labels.pug
 									
 						div(class="card-body px-lg-3 px-2")

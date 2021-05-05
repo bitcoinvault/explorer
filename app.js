@@ -179,8 +179,6 @@ app.runOnStartup = function() {
 		});
 	}
 
-	global.specialTransactions = {};
-	global.specialBlocks = {};
 	global.specialAddresses = {};
 
 	if (config.donations.addresses && config.donations.addresses[coinConfig.ticker]) {

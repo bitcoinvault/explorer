@@ -40,30 +40,6 @@ block content
 
 		div(class="tab-content")
 			div(id="tab-details", class="tab-pane active", role="tabpanel")
-				if (global.specialTransactions && global.specialTransactions[txid])
-					div(class="alert alert-primary shadow-sm", style="padding-bottom: 0;")
-						div(class="float-left", style="width: 55px; height: 55px; font-size: 18px;")
-							i(class="fas fa-certificate fa-2x", style="margin-top: 10px;")
-
-						h4(class="alert-heading h6 font-weight-bold") #{coinConfig.name} Fun
-
-						// special transaction info
-						- var stInfo = global.specialTransactions[txid];
-						if (stInfo.alertBodyHtml)
-							p
-								span !{stInfo.alertBodyHtml}
-
-								if (stInfo.referenceUrl && stInfo.referenceUrl.trim().length > 0 && stInfo.alertBodyHtml.indexOf(stInfo.referenceUrl) == -1)
-									span  
-										a(href=stInfo.referenceUrl) Read more
-						else
-							p
-								span #{stInfo.summary}
-
-								if (stInfo.referenceUrl && stInfo.referenceUrl.trim().length > 0)
-									span  
-										a(href=stInfo.referenceUrl) Read more
-
 				- var isTxConfirmed = true;
 				if (!result.getrawtransaction.confirmations || result.getrawtransaction.confirmations == 0)
 					- isTxConfirmed = false;

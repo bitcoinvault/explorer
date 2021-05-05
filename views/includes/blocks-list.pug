@@ -20,10 +20,6 @@ div(class="table-responsive")
 						td(class="data-cell monospace")
 							a(href=("/block-height/" + block.height)) #{block.height.toLocaleString()}
 
-							if (global.specialBlocks && global.specialBlocks[block.hash])
-								span  
-								a(data-toggle="tooltip", title=(coinConfig.name + " Fun! See block for details"))
-									i(class="fas fa-certificate text-primary")
 						td(class="data-cell monospace") #{moment.utc(new Date(parseInt(block.time) * 1000)).format("Y-MM-DD HH:mm:ss")}
 
 						- var timeAgo = moment.duration(moment.utc(new Date()).diff(moment.utc(new Date(parseInt(block.time) * 1000))));
