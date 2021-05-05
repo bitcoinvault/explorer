@@ -45,7 +45,7 @@
     "morgan": "^1.9.0",
     "pug": "^3.0.2",
     "qrcode": "^1.4.4",
-    "redis": "2.8.0",
+    "redis": "^3.1.2",
     "request": "2.88.0",
     "serve-favicon": "^2.5.0",
     "simple-git": "1.112.0"
@@ -61,7 +61,7 @@
     "@semantic-release/release-notes-generator": "^9.0.1",
     "commitizen": "^4.2.3",
     "conventional-changelog-conventionalcommits": "^4.5.0",
-    "cz-conventional-changelog": "^3.3.0",
+    "cz-conventional-changelog": "^3.0.1",
     "husky": "^5.1.1",
     "less": "3.9.0",
     "npm-run-all": "^4.1.5",
