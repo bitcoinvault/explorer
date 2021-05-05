@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/bitcoinvault/explorer/compare/v1.3.5...v1.4.0) (2021-05-05)
+
+
+### Features
+
+* remove unused methods and pages ([4c4ad39](https://github.com/bitcoinvault/explorer/commit/4c4ad39745bf6d0797335402d53cbc28951866a9))
+
 ### [1.3.5](https://github.com/bitcoinvault/explorer/compare/v1.3.4...v1.3.5) (2021-04-23)
 
 
