@@ -187,20 +187,6 @@ app.runOnStartup = function() {
 		global.specialAddresses[config.donations.addresses[coinConfig.ticker].address] = {type:"donation"};
 	}
 
-	if (global.coinConfig.historicalData) {
-		global.coinConfig.historicalData.forEach(function(item) {
-			if (item.type == "blockheight") {
-				global.specialBlocks[item.blockHash] = item;
-
-			} else if (item.type == "tx") {
-				global.specialTransactions[item.txid] = item;
-
-			} else if (item.type == "address") {
-				global.specialAddresses[item.address] = {type:"fun", addressInfo:item};
-			}
-		});
-	}
-
 	if (config.addressApi) {
 		var supportedAddressApis = addressApi.getSupportedAddressApis();
 		if (!supportedAddressApis.includes(config.addressApi)) {
@@ -220,7 +206,6 @@ app.runOnStartup = function() {
 			}
 		}
 	}
-
 
 	loadMiningPoolConfigs();
 

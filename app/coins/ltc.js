@@ -95,39 +95,6 @@ module.exports = {
 			}
 		]
 	},
-	historicalData: [
-		{
-			type: "blockheight",
-			date: "2011-10-07",
-			blockHeight: 0,
-			blockHash: "12a765e31ffd4059bada1e25190f6e98c99d9714d334efa41a195a7e7e04bfe2",
-			summary: "The Litecoin genesis block.",
-			alertBodyHtml: "This is the first block in the Litecoin blockchain.",
-			referenceUrl: "https://medium.com/@SatoshiLite/satoshilite-1e2dad89a017"
-		},
-		{
-			type: "tx",
-			date: "2017-05-10",
-			txid: "ce385e55fb2a73fa438426145b074f08314812fa3396472dc572b3079e26e0f9",
-			summary: "First SegWit transaction.",
-			referenceUrl: "https://twitter.com/satoshilite/status/862345830082138113"
-		},
-		{
-			type: "blockheight",
-			date: "2011-10-13",
-			blockHeight: 448,
-			blockHash: "6995d69ce2cb7768ef27f55e02dd1772d452deb44e1716bb1dd9c29409edf252",
-			summary: "The first block containing a (non-coinbase) transaction.",
-			referenceUrl: ""
-		},
-		{
-			type: "link",
-			date: "2016-05-02",
-			url: "/rpc-browser?method=verifymessage&args%5B0%5D=Ler4HNAEfwYhBmGXcFP2Po1NpRUEiK8km2&args%5B1%5D=G7W57QZ1jevRhBp7SajpcUgJiGs998R4AdBjcIgJq5BOECh4jHNatZKCFLQeo9PvZLf60ykR32XjT4IrUi9PtCU%3D&args%5B2%5D=I%2C+Charlie+Lee%2C+am+the+creator+of+Litecoin&execute=Execute",
-			summary: "Litecoin's Proof-of-Creator",
-			referenceUrl: "https://medium.com/@SatoshiLite/satoshilite-1e2dad89a017"
-		}
-	],
 	exchangeRateData:{
 		jsonUrl:"https://api.coinmarketcap.com/v1/ticker/Litecoin/",
 		exchangedCurrencyName:"usd",
