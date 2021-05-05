@@ -47,31 +47,6 @@ block content
 					p
 						span This is the #{coinConfig.ticker} donation address to support development of this tool. All support is appreciated!
 
-			else if (global.specialAddresses[address] && global.specialAddresses[address].type == "fun")
-				div(class="alert alert-primary shadow-sm", style="padding-bottom: 0;")
-					div(class="float-left", style="width: 50px; height: 50px; font-size: 18px;")
-						i(class="fas fa-certificate fa-2x", style="margin-top: 10px;")
-
-					h4(class="alert-heading h6 font-weight-bold") #{coinConfig.name} Fun
-
-					// special address info
-					- var saInfo = global.specialAddresses[address].addressInfo;
-					if (saInfo.alertBodyHtml)
-						p
-							span !{saInfo.alertBodyHtml}
-
-							if (saInfo.referenceUrl && saInfo.referenceUrl.trim().length > 0 && saInfo.alertBodyHtml.indexOf(saInfo.referenceUrl) == -1)
-								span  
-									a(href=saInfo.referenceUrl) Read more
-
-					else
-						p
-							span #{saInfo.summary}
-
-							if (saInfo.referenceUrl && saInfo.referenceUrl.trim().length > 0)
-								span  
-									a(href=saInfo.referenceUrl) Read more
-
 
 			if (false)
 				pre
@@ -329,11 +304,6 @@ block content
 												div(class="col-md-8")
 													if (tx && tx.txid)
 														a(href=("/tx/" + tx.txid)) #{tx.txid}
-
-														if (global.specialTransactions && global.specialTransactions[tx.txid])
-															span  
-															a(data-toggle="tooltip", title=(coinConfig.name + " Fun! See transaction for details"))
-																i(class="fas fa-certificate text-primary")
 
 												div(class="col-md-4")
 													div(class="text-md-right")
