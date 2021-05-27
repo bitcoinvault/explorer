@@ -10,7 +10,7 @@ This tool is intended to be a simple, self-hosted explorer for the Bitcoin Vault
 
 Whatever reasons one might have for running a full node (trustlessness, technical curiosity, supporting the network, etc) it's helpful to appreciate the "fullness" of your node. With this explorer, you can not only explore the blockchain (in the traditional sense of the term "explorer"), but also explore the functional capabilities of your own node.
 
-Live demo available at: [http://explorer.bitcoinvault.global](http://explorer.bitcoinvault.global)
+Live demo available at: [https://explorer.bitcoinvault.global](https://explorer.bitcoinvault.global)
 
 # Features
 
@@ -19,9 +19,8 @@ Live demo available at: [http://explorer.bitcoinvault.global](http://explorer.bi
 * View transaction details, with navigation "backward" via spent transaction outputs
 * View JSON content used to generate most pages
 * Search by transaction ID, block hash/height, and address
-* Optional transaction history for addresses by querying from ElectrumX, blockchain.com, blockchair.com, or blockcypher.com
+* Optional transaction history for addresses by querying from ElectrumX
 * Mempool summary, with fee, size, and age breakdowns
-* RPC command browser and terminal
 
 # Getting started
 
@@ -31,7 +30,7 @@ The below instructions are geared toward BTCV, but can be adapted easily to othe
 
 1. Install and run a full, archiving [node](https://github.com/bitcoinvault/bitcoinvault/blob/master/INSTALL.md). Ensure that your bitcoin node has full transaction indexing enabled (`txindex=1`) and the RPC server enabled (`server=1`).
 2. Synchronize your node with the Bitcoin Vault network.
-3. "Recent" version of Node.js (8+ recommended).
+3. "Recent" version of Node.js (16+ recommended).
 
 ## Instructions
 
@@ -78,6 +77,11 @@ See `./bin/cli.js --help` for the full list of CLI options.
 
 1. `docker build -t btcv-rpc-explorer .`
 2. `docker run -p 3002:3002 -it btcv-rpc-explorer`
+
+## Local dev environment via docker-compose
+
+1. Prepare `.env` file. If you want setup testnet environment, just copy: `.env-sample`
+1. `docker-compose up -d`
 
 # Support
 

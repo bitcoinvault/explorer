@@ -6,6 +6,7 @@
   "bin": "bin/cli.js",
   "scripts": {
     "start": "node ./bin/www",
+    "start-dev": "nodemon ./bin/www",
     "refresh-mining-pool-configs": "node ./bin/refresh-mining-pool-configs.js",
     "test:cy": "cypress run"
   },
@@ -22,7 +23,7 @@
   "dependencies": {
     "async": "2.6.2",
     "basic-auth": "^2.0.1",
-    "bitcoin-core": "2.0.0",
+    "bitcoin-core": "^1.2.0",
     "bitcoinjs-lib": "5.0.3",
     "body-parser": "~1.19.0",
     "cookie-parser": "^1.4.4",
@@ -47,8 +48,7 @@
     "qrcode": "^1.4.4",
     "redis": "^3.1.2",
     "request": "2.88.0",
-    "serve-favicon": "^2.5.0",
-    "simple-git": "1.112.0"
+    "serve-favicon": "^2.5.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^12.0.0",
@@ -64,6 +64,7 @@
     "cz-conventional-changelog": "^3.0.1",
     "husky": "^5.1.1",
     "less": "3.9.0",
+    "nodemon": "^2.0.7",
     "npm-run-all": "^4.1.5",
     "semantic-release": "^17.3.9"
   },

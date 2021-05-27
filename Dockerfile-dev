@@ -1,0 +1,6 @@
+FROM node:16 as builder
+WORKDIR /workspace
+VOLUME /workspace
+EXPOSE 3002
+
+CMD npm run start-dev

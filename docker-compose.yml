@@ -1,0 +1,68 @@
+---
+version: '3'
+
+services:
+  explorer:
+    build:
+      dockerfile: ./Dockerfile-dev
+      context: .
+    ports:
+      - 3002:3002
+    depends_on:
+      - bitcoinvault
+      - electrumx
+      - api
+    env_file:
+      - .env
+    volumes:
+      - $PWD:/workspace
+
+  api:
+    image: bitcoinvault/api:0.1.1
+    command: [ "gunicorn", "-w", "3", "--bind", "0.0.0.0:5000", "--access-logfile", "-", "api:app" ]
+    depends_on:
+      - mongodb
+      - bitcoinvault
+    env_file:
+      - .env-local-docker
+
+  api_deamon:
+    image: bitcoinvault/api:0.1.1
+    command: [ "python3", "daemon.py" ]
+    depends_on:
+      - mongodb
+      - bitcoinvault
+    env_file:
+      - .env-local-docker
+
+  mongodb:
+    image: mongo:4.2
+    command: mongod --logpath=/dev/null
+    environment:
+      MONGO_INITDB_DATABASE: blockchain
+    volumes:
+      - mongo-data:/data/db
+
+  bitcoinvault:
+    image: bitcoinvault/bitcoinvault:2.4.0
+    command: ["bvaultd","-conf=/bitcoinvault/bvaultd.conf", "-rpcworkqueue=4096"]
+    env_file:
+      - .env-local-docker
+    volumes:
+      - bitcoinvault-data:/bitcoinvault/blockchain
+
+  electrumx:
+    image: bitcoinvault/electrumx:2.0.2
+    depends_on:
+      - bitcoinvault
+    environment:
+      NET: testnet
+      DAEMON_URL: http://user:password@bitcoinvault:18332/
+      SERVICES: tcp://:50001
+    volumes:
+      - electrumx-data:/db
+
+volumes:
+  mongo-data:
+  bitcoinvault-data:
+  electrumx-data:
