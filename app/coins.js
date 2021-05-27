@@ -1,18 +1,15 @@
-var btc = require("./coins/btc.js");
-var ltc = require("./coins/ltc.js");
+const btcv = require("./coins/btcv.js");
 
 module.exports = {
-	"BTCV": btc,
-	"BTC": btc,
-	"LTC": ltc,
+    "BTCV": btcv,
 
-	"coins":["BTCV", "BTC", "LTC"],
-	"currency": {
-		"eur": "eur",
-		"btc": "btc",
-		"btceur": "btceur",
-		"usd": "usd",
-		"usdt": "usdt",
-		"usdtusd": "usdtusd"
-	}
+    "coins": ["BTCV"],
+    "currency": {
+        "eur": "eur",
+        "btc": "btc",
+        "btceur": "btceur",
+        "usd": "usd",
+        "usdt": "usdt",
+        "usdtusd": "usdtusd"
+    }
 };
