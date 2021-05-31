@@ -12,6 +12,7 @@ services:
       - bitcoinvault
       - electrumx
       - api
+      - redis
     env_file:
       - .env
     volumes:
@@ -41,11 +42,11 @@ services:
     environment:
       MONGO_INITDB_DATABASE: blockchain
     volumes:
-      - mongo-data:/data/db
+      - mongo-btcv-data:/data/db
 
   bitcoinvault:
     image: bitcoinvault/bitcoinvault:2.4.0
-    command: ["bvaultd","-conf=/bitcoinvault/bvaultd.conf", "-rpcworkqueue=4096"]
+    command: ["bvaultd", "-conf=/bitcoinvault/bvaultd.conf", "-rpcworkqueue=4096"]
     env_file:
       - .env-local-docker
     volumes:
@@ -60,9 +61,19 @@ services:
       DAEMON_URL: http://user:password@bitcoinvault:18332/
       SERVICES: tcp://:50001
     volumes:
-      - electrumx-data:/db
+      - electrumx-btcv-data:/db
+
+  redis:
+    image: redis:6-alpine
+    command:
+      - "redis-server"
+      - "--appendonly"
+      - "yes"
+    volumes:
+      - redis-btcv-data:/data
 
 volumes:
-  mongo-data:
+  mongo-btcv-data:
   bitcoinvault-data:
-  electrumx-data:
+  electrumx-btcv-data:
+  redis-btcv-data:
