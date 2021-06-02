@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/bitcoinvault/explorer/compare/v1.4.0...v1.5.0) (2021-06-02)
+
+
+### Features
+
+* **mining pools:** add Mining Pool payout address to known pools ([#29](https://github.com/bitcoinvault/explorer/issues/29)) ([ec17efc](https://github.com/bitcoinvault/explorer/commit/ec17efcad5c957dda59225c857b76e936f5bc80f))
+
 ## [1.4.0](https://github.com/bitcoinvault/explorer/compare/v1.3.5...v1.4.0) (2021-05-05)
 
 
