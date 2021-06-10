@@ -2,397 +2,311 @@
 
 'use strict';
 
-var os = require('os');
-var path = require('path');
-var dotenv = require("dotenv");
-var fs = require('fs');
+const os = require('os');
+const path = require('path');
+const dotenv = require("dotenv");
+const fs = require('fs');
 
-var configPaths = [ path.join(os.homedir(), '.config', 'btcv-rpc-explorer.env'), path.join(process.cwd(), '.env') ];
+const configPaths = [path.join(os.homedir(), '.config', 'btcv-rpc-explorer.env'), path.join(process.cwd(), '.env')];
 configPaths.filter(fs.existsSync).forEach(path => {
-	console.log('Loading env file:', path);
-	dotenv.config({ path });
+    console.log('Loading env file:', path);
+    dotenv.config({path});
 });
+
+global.cacheStats = {};
 
 // debug module is already loaded by the time we do dotenv.config
 // so refresh the status of DEBUG env var
-var debug = require("debug");
+const debug = require("debug");
 debug.enable(process.env.DEBUG || "btcexp:app,btcexp:error");
 
-var debugLog = debug("btcexp:app");
-var debugPerfLog = debug("btcexp:actionPerformace");
+const debugLog = debug("btcexp:app");
 
-var express = require('express');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var session = require('cookie-session')
-var csurf = require("csurf");
-var config = require("./app/config.js");
-var utils = require("./app/utils.js");
-var moment = require("moment");
-var Decimal = require('decimal.js');
-var bitcoinCore = require("bitcoin-core");
-var pug = require("pug");
-var momentDurationFormat = require("moment-duration-format");
-var coreApi = require("./app/api/coreApi.js");
-var coins = require("./app/coins.js");
-var request = require("request");
-var qrcode = require("qrcode");
-var addressApi = require("./app/api/addressApi.js");
-var electrumAddressApi = require("./app/api/electrumAddressApi.js");
-var coreApi = require("./app/api/coreApi.js");
-var auth = require('./app/auth.js');
+const express = require('express');
+const helmet = require("helmet");
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const session = require('cookie-session')
+const csurf = require("csurf");
+const config = require("./app/config.js");
+const utils = require("./app/utils.js");
+const moment = require("moment");
+const Decimal = require('decimal.js');
+const bitcoinCore = require("bitcoin-core");
+const pug = require("pug");
+const momentDurationFormat = require("moment-duration-format");
+const coreApi = require("./app/api/coreApi.js");
+const coins = require("./app/coins.js");
+const request = require("request");
+const qrcode = require("qrcode");
+const addressApi = require("./app/api/addressApi.js");
+const electrumAddressApi = require("./app/api/electrumAddressApi.js");
+const auth = require('./app/auth.js');
+const compression = require('compression')
+const crawlerBotUserAgentStrings = ["Googlebot", "Bingbot", "Slurp", "DuckDuckBot", "Baiduspider", "YandexBot", "Sogou", "Exabot", "facebot", "ia_archiver"];
+const baseActionsRouter = require('./routes/baseActionsRouter');
 
-var crawlerBotUserAgentStrings = [ "Googlebot", "Bingbot", "Slurp", "DuckDuckBot", "Baiduspider", "YandexBot", "Sogou", "Exabot", "facebot", "ia_archiver" ];
-
-var baseActionsRouter = require('./routes/baseActionsRouter');
-
-var app = express();
+const app = express();
+app.use(cookieParser());
+app.set('etag', false);
+app.use(helmet({
+    contentSecurityPolicy: false,
+    referrerPolicy: {
+        policy: 'strict-origin-when-cross-origin',
+    },
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 
 // ref: https://blog.stigok.com/post/disable-pug-debug-output-with-expressjs-web-app
 app.engine('pug', (path, options, fn) => {
-	options.debug = false;
-	return pug.__express.call(null, path, options, fn);
+    options.debug = false;
+    return pug.__express.call(null, path, options, fn);
 });
 
 app.set('view engine', 'pug');
 
 // basic http authentication
 if (process.env.BTCEXP_BASIC_AUTH_PASSWORD) {
-	app.disable('x-powered-by');
-	app.use(auth(process.env.BTCEXP_BASIC_AUTH_PASSWORD));
+    app.use(auth(process.env.BTCEXP_BASIC_AUTH_PASSWORD));
 }
 
-// uncomment after placing your favicon in /public
 app.use(favicon(__dirname + '/public/favicon.png'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(session({
-	name: 'btcv.session',
-	keys: [
-		config.cookieSecret
-	]
+    name: 'btcv.session',
+    keys: [
+        config.cookieSecret
+    ]
 }));
 
-app.use(express.static(path.join(__dirname, 'public')));
-
 process.on("unhandledRejection", (reason, p) => {
-	debugLog("Unhandled Rejection at: Promise", p, "reason:", reason, "stack:", (reason != null ? reason.stack : "null"));
+    debugLog("Unhandled Rejection at: Promise", p, "reason:", reason, "stack:", (reason != null ? reason.stack : "null"));
 });
 
 function loadMiningPoolConfigs() {
-	global.miningPoolsConfigs = [];
+    global.miningPoolsConfigs = [];
 
-	var miningPoolsConfigDir = path.join(__dirname, "public", "txt", "mining-pools-configs", global.coinConfig.ticker);
+    const miningPoolsConfigDir = path.join(__dirname, "public", "txt", "mining-pools-configs", global.coinConfig.ticker);
 
-	fs.readdir(miningPoolsConfigDir, function(err, files) {
-		if (err) {
-			utils.logError("3ufhwehe", err, {configDir:miningPoolsConfigDir, desc:"Unable to scan directory"});
+    fs.readdir(miningPoolsConfigDir, (err, files) => {
+        if (err) {
+            utils.logError("3ufhwehe", err, {configDir: miningPoolsConfigDir, desc: "Unable to scan directory"});
 
-			return;
-		}
+            return;
+        }
 
-		files.forEach(function(file) {
-			var filepath = path.join(miningPoolsConfigDir, file);
+        files.forEach(file => {
+            let filepath = path.join(miningPoolsConfigDir, file);
 
-			var contents = fs.readFileSync(filepath, 'utf8');
+            let contents = fs.readFileSync(filepath, 'utf8');
 
-			global.miningPoolsConfigs.push(JSON.parse(contents));
-		});
-	});
+            global.miningPoolsConfigs.push(JSON.parse(contents));
+        });
+    });
 
-	for (var i = 0; i < global.miningPoolsConfigs.length; i++) {
-		for (var x in global.miningPoolsConfigs[i].payout_addresses) {
-			if (global.miningPoolsConfigs[i].payout_addresses.hasOwnProperty(x)) {
-				global.specialAddresses[x] = {type:"minerPayout", minerInfo:global.miningPoolsConfigs[i].payout_addresses[x]};
-			}
-		}
-	}
+    for (let i = 0; i < global.miningPoolsConfigs.length; i++) {
+        for (let x in global.miningPoolsConfigs[i].payout_addresses) {
+            if (global.miningPoolsConfigs[i].payout_addresses.hasOwnProperty(x)) {
+                global.specialAddresses[x] = {
+                    type: "minerPayout",
+                    minerInfo: global.miningPoolsConfigs[i].payout_addresses[x]
+                };
+            }
+        }
+    }
 }
 
-function getSourcecodeProjectMetadata() {
-	var options = {
-		url: "https://api.github.com/repos/bitcoinvault/explorer",
-		headers: {
-			'User-Agent': 'request'
-		}
-	};
+app.runOnStartup = () => {
+    global.appStartTime = new Date().getTime();
+    global.config = config;
+    global.coinConfig = coins[config.coin];
+    global.coinConfigs = coins;
 
-	request(options, function(error, response, body) {
-		if (error == null && response && response.statusCode && response.statusCode == 200) {
-			var responseBody = JSON.parse(body);
+    debugLog(`Running RPC Explorer for ${global.coinConfig.name}`);
 
-			global.sourcecodeProjectMetadata = responseBody;
+    let rpcCred = config.credentials.rpc;
+    debugLog(`Connecting via RPC to node at ${rpcCred.host}:${rpcCred.port}`);
 
-		} else {
-			utils.logError("3208fh3ew7eghfg", {error:error, response:response, body:body});
-		}
-	});
-}
+    const rpcClientProperties = {
+        host: rpcCred.host,
+        port: rpcCred.port,
+        username: rpcCred.username,
+        password: rpcCred.password,
+        timeout: rpcCred.timeout
+    };
 
+    global.client = new bitcoinCore(rpcClientProperties);
 
-app.runOnStartup = function() {
-	global.config = config;
-	global.coinConfig = coins[config.coin];
-	global.coinConfigs = coins;
+    coreApi.getNetworkInfo().then(getnetworkinfo => {
+        debugLog(`Connected via RPC to node. Basic info: version=${getnetworkinfo.version}, subversion=${getnetworkinfo.subversion}, protocolversion=${getnetworkinfo.protocolversion}, services=${getnetworkinfo.localservices}`);
 
-	debugLog(`Running RPC Explorer for ${global.coinConfig.name}`);
+    }).catch(err => {
+        utils.logError("32ugegdfsde", err);
+    });
 
-	var rpcCred = config.credentials.rpc;
-	debugLog(`Connecting via RPC to node at ${rpcCred.host}:${rpcCred.port}`);
+    if (config.addressApi) {
+        var supportedAddressApis = addressApi.getSupportedAddressApis();
+        if (!supportedAddressApis.includes(config.addressApi)) {
+            utils.logError("32907ghsd0ge", `Unrecognized value for BTCEXP_ADDRESS_API: '${config.addressApi}'. Valid options are: ${supportedAddressApis}`);
+        }
 
-	var rpcClientProperties = {
-		host: rpcCred.host,
-		port: rpcCred.port,
-		username: rpcCred.username,
-		password: rpcCred.password,
-		timeout: rpcCred.timeout
-	};
+        if (config.addressApi === "electrumx") {
+            if (config.electrumXServers && config.electrumXServers.length > 0) {
+                electrumAddressApi.connectToServers().then(() => {
+                    global.electrumAddressApi = electrumAddressApi;
 
-	global.client = new bitcoinCore(rpcClientProperties);
+                }).catch(err => {
+                    utils.logError("31207ugf4e0fed", err, {electrumXServers: config.electrumXServers});
+                });
+            } else {
+                utils.logError("327hs0gde", "You must set the 'BTCEXP_ELECTRUMX_SERVERS' environment variable when BTCEXP_ADDRESS_API=electrumx.");
+            }
+        }
+    }
 
-	coreApi.getNetworkInfo().then(function(getnetworkinfo) {
-		debugLog(`Connected via RPC to node. Basic info: version=${getnetworkinfo.version}, subversion=${getnetworkinfo.subversion}, protocolversion=${getnetworkinfo.protocolversion}, services=${getnetworkinfo.localservices}`);
+    loadMiningPoolConfigs();
 
-	}).catch(function(err) {
-		utils.logError("32ugegdfsde", err);
-	});
+    if (!global.exchangeRates) {
+        utils.refreshExchangeRates();
+    }
 
-	if (config.donations.addresses) {
-		var getDonationAddressQrCode = function(coinId) {
-			qrcode.toDataURL(config.donations.addresses[coinId].address, function(err, url) {
-				global.donationAddressQrCodeUrls[coinId] = url;
-			});
-		};
+    if (!global.totalCoinSupply) {
+        utils.refreshCoinSupply();
+    }
 
-		global.donationAddressQrCodeUrls = {};
+    if (!global.totalWalletsNumber) {
+        utils.refreshWalletsNumber();
+    }
 
-		config.donations.addresses.coins.forEach(function(item) {
-			getDonationAddressQrCode(item);
-		});
-	}
+    if (!global.txAvgVolume24h) {
+        utils.refreshTxVolume();
+    }
 
-	global.specialAddresses = {};
+    if (!global.miningPools) {
+        utils.refreshMiningPoolsData();
+    }
 
-	if (config.donations.addresses && config.donations.addresses[coinConfig.ticker]) {
-		global.specialAddresses[config.donations.addresses[coinConfig.ticker].address] = {type:"donation"};
-	}
+    const refreshInterval = {
+        exchangeRates: parseInt(process.env.BTCEXP_REFRESH_EXCHANGE_RATE_INTERVAL || 5),		// default: 5min
+        coinSupply: parseInt(process.env.BTCEXP_REFRESH_COIN_SUPPLY_INTERVAL || 1),				// default: 1min
+        walletsNumber: parseInt(process.env.BTCEXP_REFRESH_WALLETS_NUMBER_INTERVAL || 1),		// default: 1min
+        txVolume: parseInt(process.env.BTCEXP_REFRESH_TX_VOLUME_INTERVAL || 1),					// default: 1min
+        miningPoolsData: parseInt(process.env.BTCEXP_REFRESH_MINING_POOLS_DATA_INTERVAL || 1),	// default: 1min
+    };
 
-	if (config.addressApi) {
-		var supportedAddressApis = addressApi.getSupportedAddressApis();
-		if (!supportedAddressApis.includes(config.addressApi)) {
-			utils.logError("32907ghsd0ge", `Unrecognized value for BTCEXP_ADDRESS_API: '${config.addressApi}'. Valid options are: ${supportedAddressApis}`);
-		}
+    // just dump info
+    debugLog(`RefreshExchangeRates interval: ${refreshInterval.exchangeRates}min`);
+    debugLog(`RefreshCoinSupply interval: ${refreshInterval.coinSupply}min`);
+    debugLog(`RefreshWalletsNumber interval: ${refreshInterval.walletsNumber}min`);
+    debugLog(`RefreshTxVolume interval: ${refreshInterval.txVolume}min`);
+    debugLog(`RefreshMiningPoolsData interval: ${refreshInterval.miningPoolsData}min`);
 
-		if (config.addressApi == "electrumx") {
-			if (config.electrumXServers && config.electrumXServers.length > 0) {
-				electrumAddressApi.connectToServers().then(function() {
-					global.electrumAddressApi = electrumAddressApi;
+    // refresh exchange rate periodically
+    setInterval(utils.refreshExchangeRates, refreshInterval.exchangeRates * 60 * 1000);
+    setInterval(utils.refreshCoinSupply, refreshInterval.coinSupply * 60 * 1000);
+    setInterval(utils.refreshWalletsNumber, refreshInterval.walletsNumber * 60 * 1000);
+    setInterval(utils.refreshTxVolume, refreshInterval.txVolume * 60 * 1000);
+    setInterval(utils.refreshMiningPoolsData, refreshInterval.miningPoolsData * 60 * 1000);
 
-				}).catch(function(err) {
-					utils.logError("31207ugf4e0fed", err, {electrumXServers:config.electrumXServers});
-				});
-			} else {
-				utils.logError("327hs0gde", "You must set the 'BTCEXP_ELECTRUMX_SERVERS' environment variable when BTCEXP_ADDRESS_API=electrumx.");
-			}
-		}
-	}
-
-	loadMiningPoolConfigs();
-
-	if (!global.exchangeRates) {
-		utils.refreshExchangeRates();
-	}
-
-	if (!global.totalCoinSupply) {
-		utils.refreshCoinSupply();
-	}
-
-	if (!global.totalWalletsNumber) {
-		utils.refreshWalletsNumber();
-	}
-
-	if (!global.txAvgVolume24h) {
-		utils.refreshTxVolume();
-	}
-
-	if (!global.miningPools) {
-		utils.refreshMiningPoolsData();
-	}
-
-	// refresh exchange rate periodically
-	setInterval(utils.refreshExchangeRates, 60000);
-	setInterval(utils.refreshCoinSupply, 60000);
-	setInterval(utils.refreshWalletsNumber, 60000);
-	setInterval(utils.refreshTxVolume, 60000);
-	setInterval(utils.refreshMiningPoolsData, 60000);
-
-	utils.logMemoryUsage();
-	setInterval(utils.logMemoryUsage, 5000);
+    utils.logMemoryUsage();
 };
 
-app.use(function(req, res, next) {
-	req.startTime = Date.now();
-	req.startMem = process.memoryUsage().heapUsed;
+app.use((req, res, next) => {
+    // make session available in templates
+    res.locals.session = req.session;
 
-	next();
-});
+    var userAgent = req.headers['user-agent'];
+    for (var i = 0; i < crawlerBotUserAgentStrings.length; i++) {
+        if (userAgent.indexOf(crawlerBotUserAgentStrings[i]) !== -1) {
+            res.locals.crawlerBot = true;
+        }
+    }
 
-app.use(function(req, res, next) {
-	// make session available in templates
-	res.locals.session = req.session;
+    res.locals.config = global.config;
+    res.locals.coinConfig = global.coinConfig;
 
-	if (config.credentials.rpc && req.session.host == null) {
-		req.session.host = config.credentials.rpc.host;
-		req.session.port = config.credentials.rpc.port;
-		req.session.username = config.credentials.rpc.username;
-	}
+    res.locals.host = config.credentials.rpc.host;
+    res.locals.port = config.credentials.rpc.port;
 
-	var userAgent = req.headers['user-agent'];
-	for (var i = 0; i < crawlerBotUserAgentStrings.length; i++) {
-		if (userAgent.indexOf(crawlerBotUserAgentStrings[i]) != -1) {
-			res.locals.crawlerBot = true;
-		}
-	}
+    res.locals.genesisBlockHash = coreApi.getGenesisBlockHash();
+    res.locals.genesisCoinbaseTransactionId = coreApi.getGenesisCoinbaseTransactionId();
 
-	res.locals.config = global.config;
-	res.locals.coinConfig = global.coinConfig;
-	
-	res.locals.host = req.session.host;
-	res.locals.port = req.session.port;
+    res.locals.pageErrors = [];
 
-	res.locals.genesisBlockHash = coreApi.getGenesisBlockHash();
-	res.locals.genesisCoinbaseTransactionId = coreApi.getGenesisCoinbaseTransactionId();
+    // currency format type
+    if (!req.session.currencyFormatType) {
+        req.session.currencyFormatType = req.cookies['user-setting-currencyFormatType'] || "";
+    }
+    res.locals.currencyFormatType = req.session.currencyFormatType;
 
-	res.locals.pageErrors = [];
+    // theme
+    if (!req.session.uiTheme) {
+        req.session.uiTheme = req.cookies['user-setting-uiTheme'] || "";
+    }
 
+    // homepage banner
+    if (!req.session.hideHomepageBanner) {
+        req.session.hideHomepageBanner = req.cookies['user-setting-hideHomepageBanner'] || "false";
+    }
 
-	// currency format type
-	if (!req.session.currencyFormatType) {
-		var cookieValue = req.cookies['user-setting-currencyFormatType'];
+    if (req.session.userMessage) {
+        res.locals.userMessage = req.session.userMessage;
+        res.locals.userMessageType = req.session.userMessageType || "warning";
 
-		if (cookieValue) {
-			req.session.currencyFormatType = cookieValue;
+        req.session.userMessage = null;
+        req.session.userMessageType = null;
+    }
 
-		} else {
-			req.session.currencyFormatType = "";
-		}
-	}
+    if (req.session.query) {
+        res.locals.query = req.session.query;
 
-	// theme
-	if (!req.session.uiTheme) {
-		var cookieValue = req.cookies['user-setting-uiTheme'];
+        req.session.query = null;
+    }
 
-		if (cookieValue) {
-			req.session.uiTheme = cookieValue;
+    // make some var available to all request
+    // ex: req.cheeseStr = "cheese";
 
-		} else {
-			req.session.uiTheme = "";
-		}
-	}
-
-	// homepage banner
-	if (!req.session.hideHomepageBanner) {
-		var cookieValue = req.cookies['user-setting-hideHomepageBanner'];
-
-		if (cookieValue) {
-			req.session.hideHomepageBanner = cookieValue;
-
-		} else {
-			req.session.hideHomepageBanner = "false";
-		}
-	}
-
-	res.locals.currencyFormatType = req.session.currencyFormatType;
-
-
-	if (!["/", "/connect"].includes(req.originalUrl)) {
-		if (utils.redirectToConnectPageIfNeeded(req, res)) {
-			return;
-		}
-	}
-
-	if (req.session.userMessage) {
-		res.locals.userMessage = req.session.userMessage;
-		
-		if (req.session.userMessageType) {
-			res.locals.userMessageType = req.session.userMessageType;
-			
-		} else {
-			res.locals.userMessageType = "warning";
-		}
-
-		req.session.userMessage = null;
-		req.session.userMessageType = null;
-	}
-
-	if (req.session.query) {
-		res.locals.query = req.session.query;
-
-		req.session.query = null;
-	}
-
-	// make some var available to all request
-	// ex: req.cheeseStr = "cheese";
-
-	next();
+    next();
 });
 
 app.use(csurf(), (req, res, next) => {
-	res.locals.csrfToken = req.csrfToken();
-	next();
+    res.locals.csrfToken = req.csrfToken();
+    next();
 });
 
 app.use('/', baseActionsRouter);
 
-app.use(function(req, res, next) {
-	var time = Date.now() - req.startTime;
-	var memdiff = process.memoryUsage().heapUsed - req.startMem;
+app.use(express.static('public', {index: false, etag: false, fallthrough: true}));
 
-	debugPerfLog("Finished action '%s' in %d ms", req.path, time);
+app.use((err, req, res, next) => {
+    let errToRender = {};
+    if (app.get('env') === 'development') {
+        errToRender = err;
+    }
+
+    res.status(err.status || 500);
+    res.render('error', {
+        message: err.message,
+        error: errToRender
+    });
 });
 
-/// catch 404 and forwarding to error handler
-app.use(function(req, res, next) {
-	var err = new Error('Not Found');
-	err.status = 404;
-	next(err);
-});
-
-/// error handlers
-
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-	app.use(function(err, req, res, next) {
-		res.status(err.status || 500);
-		res.render('error', {
-			message: err.message,
-			error: err
-		});
-	});
-}
-
-// production error handler
-// no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-	res.status(err.status || 500);
-	res.render('error', {
-		message: err.message,
-		error: {}
-	});
+app.use((req, res, next) => {
+    res.status(404);
+    res.render('error', {
+        message: '404 - page not found',
+        error: 'Page not found.'
+    });
 });
 
 app.locals.moment = moment;
 app.locals.Decimal = Decimal;
 app.locals.utils = utils;
-
-
 
 module.exports = app;

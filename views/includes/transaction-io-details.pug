@@ -45,16 +45,6 @@ div(class="row monospace")
 										if (vout && vout.scriptPubKey && vout.scriptPubKey.addresses)
 											div(class="word-wrap")
 												a(href=("/address/" + vout.scriptPubKey.addresses[0]), class=(txIOHighlightAddress == vout.scriptPubKey.addresses[0] ? "font-weight-bold" : null)) #{vout.scriptPubKey.addresses[0]}
-												if (global.specialAddresses[vout.scriptPubKey.addresses[0]])
-													- var specialAddressInfo = global.specialAddresses[vout.scriptPubKey.addresses[0]];
-													if (specialAddressInfo.type == "minerPayout")
-														span  
-														a(data-toggle="tooltip", title=("Miner payout address: " + specialAddressInfo.minerInfo.name))
-															i(class="fas fa-certificate text-primary")
-													else if (specialAddressInfo.type == "donation")
-														span  
-														a(data-toggle="tooltip", title=("Development donation address. All support is appreciated!"))
-															i(class="fas fa-certificate text-primary")
 
 											span(class="small") via 
 												a(href=("/tx/" + txInput.txid + "#output-" + txVin.vout)) #{txInput.txid.substring(0, 20)}...[#{txVin.vout}]
@@ -148,18 +138,6 @@ div(class="row monospace")
 
 										a(id=("output-" + voutIndex), href=("/address/" + vout.scriptPubKey.addresses[0]))
 											span(class=("monospace word-wrap " + (highlightRow ? "font-weight-bold" : ""))) #{vout.scriptPubKey.addresses[0]}
-
-										if (global.specialAddresses[vout.scriptPubKey.addresses[0]])
-											- var specialAddressInfo = global.specialAddresses[vout.scriptPubKey.addresses[0]];
-											if (specialAddressInfo.type == "minerPayout")
-												span  
-												a(data-toggle="tooltip", title=("Miner payout address: " + specialAddressInfo.minerInfo.name))
-													i(class="fas fa-certificate text-primary")
-											else if (specialAddressInfo.type == "donation")
-												span  
-												a(data-toggle="tooltip", title=("Development donation address. All support is appreciated!"))
-													i(class="fas fa-certificate text-primary")
-													
 
 									else if (vout.scriptPubKey.hex && vout.scriptPubKey.hex.startsWith('6a24aa21a9ed'))
 										span(class="monospace")

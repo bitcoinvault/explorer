@@ -28,6 +28,13 @@ var exponentScales = [
 ];
 
 var ipMemoryCache = {};
+if (redisCache.active) {
+	var onRedisCacheEvent = function(cacheType, eventType, cacheKey) {
+		global.cacheStats.redis[eventType]++;
+	}
+
+	ipRedisCache = redisCache.createCache("v0", onRedisCacheEvent);
+}
 var ipCache = {
 	get:function(key) {
 		return new Promise(function(resolve, reject) {
@@ -67,7 +74,7 @@ var richestWalletsCache = {
 		return new Promise(function(resolve, reject) {
 
 			if (redisCache.active) {
-				redisCache.get("richestWallets").then(function(redisResult) {
+				redisCache.createCache.get("richestWallets").then(function(redisResult) {
 					if (redisResult != null) {
 						resolve(redisResult);
 
@@ -700,10 +707,22 @@ function colorHexToHsl(hex) {
 const reflectPromise = p => p.then(v => ({v, status: "resolved" }),
                             e => ({e, status: "rejected" }));
 
+global.errorStats = {};
+
 function logError(errorId, err, optionalUserData = null) {
 	if (!global.errorLog) {
 		global.errorLog = [];
 	}
+
+	if (!global.errorStats[errorId]) {
+		global.errorStats[errorId] = {
+			count: 0,
+			firstSeen: new Date().getTime()
+		};
+	}
+
+	global.errorStats[errorId].count++;
+	global.errorStats[errorId].lastSeen = new Date().getTime();
 
 	global.errorLog.push({errorId:errorId, error:err, userData:optionalUserData, date:new Date()});
 	while (global.errorLog.length > 100) {
@@ -711,7 +730,7 @@ function logError(errorId, err, optionalUserData = null) {
 	}
 
 	debugErrorLog("Error " + errorId + ": " + err + ", json: " + JSON.stringify(err) + (optionalUserData != null ? (", userData: " + optionalUserData + " (json: " + JSON.stringify(optionalUserData) + ")") : ""));
-	
+
 	if (err && err.stack) {
 		debugErrorLog("Stack: " + err.stack);
 	}
@@ -723,6 +742,7 @@ function logError(errorId, err, optionalUserData = null) {
 
 	return returnVal;
 }
+
 
 function buildQrCodeUrls(strings) {
 	return new Promise(function(resolve, reject) {

@@ -23,7 +23,6 @@ const args = require('meow')(`
       --rpc-allowall                 allow all rpc commands [default: false]
       --rpc-blacklist <methods>      comma separated list of rpc commands to block [default: see in config.js]
       --cookie-secret <secret>       secret key for signed cookie hmac generation [default: hmac derive from bitcoind pass]
-      --demo                         enable demoSite mode [default: disabled]
       --no-rates                     disable fetching of currency exchange rates [default: enabled]
       --privacy-mode                 enable privacyMode to disable external data requests [default: disabled]
       --max-mem <bytes>              value for max_old_space_size [default: 1024 (1 GB)]
