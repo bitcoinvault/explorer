@@ -19,7 +19,7 @@ services:
       - $PWD:/workspace
 
   api:
-    image: bitcoinvault/api:0.1.1
+    image: bitcoinvault/api:0.1.2
     command: [ "gunicorn", "-w", "3", "--bind", "0.0.0.0:5000", "--access-logfile", "-", "api:app" ]
     depends_on:
       - mongodb
@@ -28,7 +28,7 @@ services:
       - .env-local-docker
 
   api_deamon:
-    image: bitcoinvault/api:0.1.1
+    image: bitcoinvault/api:0.1.2
     command: [ "python3", "daemon.py" ]
     depends_on:
       - mongodb

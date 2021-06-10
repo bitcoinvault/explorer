@@ -5,11 +5,11 @@ html(lang="en")
 		meta(name="csrf-token", content=csrfToken)
 		meta(name="viewport", content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, shrink-to-fit=no")
 		
-		link(rel="stylesheet", href="/css/fonts.css", integrity="sha384-XOmmu8j3C2MFUXRVGg8VWYNwlhEkSNb0rW/4e7bi3F56S6PejEmBUQDGZofQyjbL")
+		link(rel="stylesheet", href="/css/fonts.css", integrity="sha256-cXrAGenKyGZGVpFLF2tsmvoo8Ibf8V0NVQze8MDS1rU=")
 		link(rel="stylesheet", href="/css/highlight.min.css", integrity="sha384-zhIsEafzyQWHSoMCQ4BfT8ZlRXQyIFwAHAJn32PNdsb8n6tVysGZSLpEEIvCskw4")
 
 
-		if (session.uiTheme && session.uiTheme == "dark")
+		if (session.uiTheme && session.uiTheme === "dark")
 			link(rel="stylesheet", href="/css/bootstrap-dark.css", integrity="")
 			link(rel="stylesheet", href="/css/dark-touchups.css", integrity="")
 				
@@ -39,10 +39,6 @@ html(lang="en")
 				div(class="collapse navbar-collapse", id="navbarNav")
 					if (client)
 						ul(class="navbar-nav mr-auto")
-							if (false)
-								li(class="nav-item")
-									a(href="/about", class="nav-link")
-										span About
 
 							if (config.siteTools)
 								li(class="nav-item dropdown")
@@ -109,7 +105,7 @@ html(lang="en")
 								span #{item.name}
 		
 		- var bodyBgColor = "#ffffff;";
-		if (session.uiTheme && session.uiTheme == "dark")
+		if (session.uiTheme && session.uiTheme === "dark")
 			- bodyBgColor = "#0c0c0c;";
 
 		div(class="pb-4 pt-3 pt-md-4", style=("background-color: " + bodyBgColor))
@@ -158,24 +154,6 @@ html(lang="en")
 									a(href=("https://github.com/bitcoinvault/explorer/commit/" + sourcecodeVersion)) #{sourcecodeVersion}
 									span(style="color: #ccc;")  (#{sourcecodeDate})
 
-							if (config.demoSite)
-								dt Public Demos
-								dd
-									if (coinConfig.demoSiteUrl)
-										a(href=coinConfig.demoSiteUrl) #{coinConfig.demoSiteUrl}
-									else
-										a(href="https://btc-explorer.chaintools.io") https://btc-explorer.chaintools.io
-									
-									div(class="mt-2")
-										- var demoSiteCoins = ["BTC", "LTC"];
-										each demoSiteCoin in demoSiteCoins
-											a(href=coinConfigs[demoSiteCoin].demoSiteUrl, class="mr-2", title=coinConfigs[demoSiteCoin].siteTitle)
-												img(src=("/img/logo/" + demoSiteCoin.toLowerCase() + ".svg"), alt=demoSiteCoin.toLowerCase())
-
-										a(href="https://lnd-admin.chaintools.io", class="mr-2", title="LND Admin")
-											img(src=("/img/logo/lnd-admin.png"), style="width: 32px; height: 32px;", alt="LND Admin")
-
-				
 		script(src="/js/jquery.min.js", integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=")
 		script(src="/js/popper.min.js", integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut")
 		script(src="/js/bootstrap.min.js", integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM")
@@ -205,5 +183,4 @@ html(lang="en")
 
 				gtag('config', '#{config.credentials.googleAnalyticsTrackingId}');
 
-		
 		block endOfBody

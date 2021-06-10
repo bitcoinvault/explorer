@@ -149,8 +149,8 @@ module.exports = {
     blockRewardFunction: blockHeight => {
 
         if (blockHeight < 29850 + 8 * 26600) {
-            if (blockHeight < 29850 + 0 * 26600) return new Decimal8(175);
-            if (blockHeight < 29850 + 1 * 26600) return new Decimal8(150);
+            if (blockHeight < 29850) return new Decimal8(175);
+            if (blockHeight < 29850 + 26600) return new Decimal8(150);
             if (blockHeight < 29850 + 2 * 26600) return new Decimal8(125);
             if (blockHeight < 29850 + 3 * 26600) return new Decimal8(100);
             if (blockHeight < 29850 + 4 * 26600) return new Decimal8(75);

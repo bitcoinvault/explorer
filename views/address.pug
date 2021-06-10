@@ -37,21 +37,7 @@ block content
 							span  (see the configuration
 							a(href=coinConfig.miningPoolsConfigUrls[0]) here
 							span )
-			else if (global.specialAddresses[address] && global.specialAddresses[address].type == "donation")
-				div(class="alert alert-primary shadow-sm", style="padding-bottom: 0;")
-					div(class="float-left", style="width: 50px; height: 50px; font-size: 18px;")
-						i(class="fas fa-certificate fa-2x", style="margin-top: 10px;")
 
-					h4(class="alert-heading h6 font-weight-bold") #{coinConfig.name} Fun
-
-					p
-						span This is the #{coinConfig.ticker} donation address to support development of this tool. All support is appreciated!
-
-
-			if (false)
-				pre
-					code(class="json bg-light") #{JSON.stringify(addressObj, null, 4)}
-			
 			ul(class='nav nav-tabs mb-3')
 				li(class="nav-item")
 					a(data-toggle="tab", href="#tab-details", class="nav-link active", role="tab") Details
@@ -289,8 +275,6 @@ block content
 									span No transactions found
 
 								each tx, txIndex in transactions
-									//pre
-									//	code(class="json bg-light") #{JSON.stringify(tx, null, 4)}
 									div(class=("xcard bg-light rounded shadow-sm " + ((txIndex < (transactions.length - 1) || txids.length > limit) ? "mb-4" : "")))
 										div(class="card-header monospace clearfix")
 											div(class="float-left", style="margin-right: 0px;")
