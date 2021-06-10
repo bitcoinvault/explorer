@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.6.0](https://github.com/bitcoinvault/explorer/compare/v1.5.0...v1.6.0) (2021-06-10)
+
+
+### Features
+
+* add redis for cache in docker-compose ([cb77efc](https://github.com/bitcoinvault/explorer/commit/cb77efc134583d536244df1dd4ddf4eb9f8f1237))
+* add stats page ([7c5c814](https://github.com/bitcoinvault/explorer/commit/7c5c8148891de01c769e7498b9120807c57aa678))
+* docker-compose setup for BTCV explorer ([943df05](https://github.com/bitcoinvault/explorer/commit/943df05b7b59041ba099d13f47bcd357537c2597))
+* fix performance issues ([b2305eb](https://github.com/bitcoinvault/explorer/commit/b2305ebc65ee0d35b22d2cf3694a0d9392ef6436))
+
 ## [1.5.0](https://github.com/bitcoinvault/explorer/compare/v1.4.0...v1.5.0) (2021-06-02)
 
 
