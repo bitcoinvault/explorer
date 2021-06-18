@@ -1,5 +1,7 @@
 # Changelog
 
+### [1.6.1](https://github.com/bitcoinvault/explorer/compare/v1.6.0...v1.6.1) (2021-06-18)
+
 ## [1.6.0](https://github.com/bitcoinvault/explorer/compare/v1.5.0...v1.6.0) (2021-06-10)
 
 
