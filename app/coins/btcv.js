@@ -146,6 +146,9 @@ module.exports = {
             return null;
         }
     },
+    circulatingSupply: {
+      jsonUrl: "https://stats.bitcoinvault.global/api/coinmarketcap/circulating_coin_supply",
+    },
     blockRewardFunction: blockHeight => {
 
         if (blockHeight < 29850 + 8 * 26600) {

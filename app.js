@@ -192,12 +192,22 @@ app.runOnStartup = () => {
         utils.refreshMiningPoolsData();
     }
 
+    if (!global.coinsInCirculation) {
+      utils.refreshCoinsInCirculation();
+    }
+    
+    if (!global.marketCap) {
+      utils.refreshMarketCap();
+    }
+
     const refreshInterval = {
         exchangeRates: parseInt(process.env.BTCEXP_REFRESH_EXCHANGE_RATE_INTERVAL || 5),		// default: 5min
         coinSupply: parseInt(process.env.BTCEXP_REFRESH_COIN_SUPPLY_INTERVAL || 1),				// default: 1min
         walletsNumber: parseInt(process.env.BTCEXP_REFRESH_WALLETS_NUMBER_INTERVAL || 1),		// default: 1min
         txVolume: parseInt(process.env.BTCEXP_REFRESH_TX_VOLUME_INTERVAL || 1),					// default: 1min
         miningPoolsData: parseInt(process.env.BTCEXP_REFRESH_MINING_POOLS_DATA_INTERVAL || 1),	// default: 1min
+        coinsInCirculation: parseInt(process.env.BTCEXP_REFRESH_COINS_IN_CIRCULATION_INTERVAL || 1),	// default: 1min
+        marketCap: parseInt(process.env.BTCEXP_REFRESH_MARKET_CAP_INTERVAL || 1),	// default: 1min
     };
 
     // just dump info
@@ -206,6 +216,8 @@ app.runOnStartup = () => {
     debugLog(`RefreshWalletsNumber interval: ${refreshInterval.walletsNumber}min`);
     debugLog(`RefreshTxVolume interval: ${refreshInterval.txVolume}min`);
     debugLog(`RefreshMiningPoolsData interval: ${refreshInterval.miningPoolsData}min`);
+    debugLog(`RefreshCoinsInCirculationData interval: ${refreshInterval.coinsInCirculation}min`);
+    debugLog(`RefreshMarketCapData interval: ${refreshInterval.marketCap}min`);
 
     // refresh exchange rate periodically
     setInterval(utils.refreshExchangeRates, refreshInterval.exchangeRates * 60 * 1000);
@@ -213,6 +225,8 @@ app.runOnStartup = () => {
     setInterval(utils.refreshWalletsNumber, refreshInterval.walletsNumber * 60 * 1000);
     setInterval(utils.refreshTxVolume, refreshInterval.txVolume * 60 * 1000);
     setInterval(utils.refreshMiningPoolsData, refreshInterval.miningPoolsData * 60 * 1000);
+    setInterval(utils.refreshCoinsInCirculation, refreshInterval.coinsInCirculation * 60 * 1000);
+    setInterval(utils.refreshMarketCap, refreshInterval.marketCap * 60 * 1000);
 
     utils.logMemoryUsage();
 };
