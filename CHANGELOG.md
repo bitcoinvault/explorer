@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.0](https://github.com/bitcoinvault/explorer/compare/v1.6.2...v1.7.0) (2021-07-15)
+
+
+### Features
+
+* modify network statistics ([#35](https://github.com/bitcoinvault/explorer/issues/35)) ([a692644](https://github.com/bitcoinvault/explorer/commit/a6926440f3a28f7df1be70d804cedd7248e393f6))
+
 ### [1.6.2](https://github.com/bitcoinvault/explorer/compare/v1.6.1...v1.6.2) (2021-06-18)
 
 ### [1.6.1](https://github.com/bitcoinvault/explorer/compare/v1.6.0...v1.6.1) (2021-06-18)
