@@ -554,6 +554,28 @@ function refreshMiningPoolsData() {
 	});
 }
 
+function refreshCoinsInCirculation() {
+  if (coins[config.coin].circulatingSupply) {
+    request(coins[config.coin].circulatingSupply.jsonUrl, function(error, response, body) {
+      if (error == null && response && response.statusCode && response.statusCode == 200) {
+        global.coinsInCirculation = body;
+        debugLog("Got coins in circulation: " + global.coinsInCirculation);
+      } else {
+        logError("39r7h2390fgewfgds", { error:error, response:response, body:body });
+      }
+    })
+  }
+}
+
+function refreshMarketCap() {
+  if (global.coinsInCirculation && global.exchangeRates && global.exchangeRates[coins.currency.usdt] != null && global.exchangeRates[coins.currency.usdtusd] != null) {
+    var dec = new Decimal(1.0);
+    dec = dec.times(global.exchangeRates[coins.currency.usdt]).times(global.exchangeRates[coins.currency.usdtusd]);
+    var exchangeUSDRate = parseFloat(Math.round(dec * 100) / 100).toFixed(2);
+    global.marketCap = Math.round(global.coinsInCirculation * exchangeUSDRate);
+  }
+}
+
 function getRichestWallets() {
 	const REDIS_EXPIRATION_INTERVAL = 1000 * 60;
 	return new Promise(function(resolve, reject) {
@@ -809,6 +831,8 @@ module.exports = {
 	refreshCoinSupply: refreshCoinSupply,
 	refreshWalletsNumber: refreshWalletsNumber,
 	refreshTxVolume: refreshTxVolume,
+  refreshCoinsInCirculation: refreshCoinsInCirculation,
+  refreshMarketCap: refreshMarketCap,
 	parseExponentStringDouble: parseExponentStringDouble,
 	formatLargeNumber: formatLargeNumber,
 	geoLocateIpAddresses: geoLocateIpAddresses,

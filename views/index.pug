@@ -26,6 +26,12 @@ block content
 		if (txStats)
 			- networkSummaryItemCount++;
 
+		if (global.coinsInCirculation)
+			- networkSummaryItemCount++;
+
+		if (global.marketCap)
+			- networkSummaryItemCount++;
+
 		- var networkSummaryColumnClass = "col-md-4";
 		if (networkSummaryItemCount > 6)
 			- networkSummaryColumnClass = "col-md-3";
@@ -124,22 +130,6 @@ block content
 							span(class="font-weight-bold") Avg Tx Volume (24h)
 							p(class="lead") #{global.txAvgVolume24h.toLocaleString()} BTCV/TX
 
-					if (global.totalCoinSupply)
-						div(class=networkSummaryColumnClass)
-							div(class="float-left", style="height: 40px; width: 40px;")
-								span
-									i(class="fas fa-coins fa-2x mr-2", style="margin-top: 6px;")
-							span(class="font-weight-bold") Coins In Circulation
-							p(class="lead") #{Math.round(global.totalCoinSupply).toLocaleString()} BTCV
-					
-					if (global.totalCoinSupply && global.exchangeRates && global.exchangeRates['usdt'] && global.exchangeRates['usdtusd'])
-						div(class=networkSummaryColumnClass)
-							div(class="float-left", style="height: 40px; width: 40px;")
-								span
-									i(class="fas fa-money-check-alt fa-2x mr-2", style="margin-top: 6px;")
-							span(class="font-weight-bold") Market Cap
-							p(class="lead") $#{Math.round(global.exchangeRates['usdt'] * global.exchangeRates['usdtusd'] * global.totalCoinSupply).toLocaleString() }
-
 					if (global.exchangeRates && global.exchangeRates['usdt'] && global.exchangeRates['usdtusd'] && global.exchangeRates['btc'])
 						div(class=networkSummaryColumnClass)
 							div(class="float-left", style="height: 40px; width: 40px; font-size: 12px;")
@@ -163,6 +153,38 @@ block content
 								p(class="lead") #{utils.formatExchangedCurrency(1.0, "btc")}
 							else
 								p(class="lead") -
+
+					if (global.totalCoinSupply)
+						div(class=networkSummaryColumnClass)
+							div(class="float-left", style="height: 40px; width: 40px;")
+								span
+									i(class="fas fa-coins fa-2x mr-2", style="margin-top: 6px;")
+							span(class="font-weight-bold") Total Coins Mined
+							p(class="lead") #{Math.round(global.totalCoinSupply).toLocaleString()} BTCV
+					
+					if (global.totalCoinSupply && global.exchangeRates && global.exchangeRates['usdt'] && global.exchangeRates['usdtusd'])
+						div(class=networkSummaryColumnClass)
+							div(class="float-left", style="height: 40px; width: 40px;")
+								span
+									i(class="fas fa-money-check-alt fa-2x mr-2", style="margin-top: 6px; fill: red;")
+							span(class="font-weight-bold") Value of Total Coins Mined
+							p(class="lead") $#{Math.round(global.exchangeRates['usdt'] * global.exchangeRates['usdtusd'] * global.totalCoinSupply).toLocaleString() }
+					
+					if (global.coinsInCirculation)
+						div(class=networkSummaryColumnClass)
+							div(class="float-left", style="height: 40px; width: 40px;")
+								span
+									i(class="fas fa-spinner fa-2x mr-2", style="margin-top: 6px;")
+							span(class="font-weight-bold") Coins in Circulation
+							p(class="lead") #{Math.round(global.coinsInCirculation).toLocaleString()} BTCV
+					
+					if (global.marketCap)
+						div(class=networkSummaryColumnClass)
+							div(class="float-left", style="height: 40px; width: 40px;")
+								span
+									i(class="fas fa-landmark fa-2x mr-2", style="margin-top: 6px;")
+							span(class="font-weight-bold") Market Cap
+							p(class="lead") $#{global.marketCap.toLocaleString()}
 
 
 
