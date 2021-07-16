@@ -1,6 +1,8 @@
 const Decimal = require("decimal.js");
 Decimal8 = Decimal.clone({precision: 8, rounding: 8});
 
+const STATS_API_URL = process.env.BTCEXP_STATS_API_URL || 'https://stats.bitcoinvault.global/api'
+
 const currencyUnits = [
     {
         type: "native",
@@ -147,7 +149,7 @@ module.exports = {
         }
     },
     circulatingSupply: {
-      jsonUrl: "https://stats.bitcoinvault.global/api/coinmarketcap/circulating_coin_supply",
+      jsonUrl: STATS_API_URL + "/coinmarketcap/circulating_coin_supply",
     },
     blockRewardFunction: blockHeight => {
 
