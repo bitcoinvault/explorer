@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.0](https://github.com/bitcoinvault/explorer/compare/v1.7.0...v1.8.0) (2021-07-19)
+
+
+### Features
+
+* add env variable for stats api ([04f1667](https://github.com/bitcoinvault/explorer/commit/04f16673e5ba4d40afcb3f56df3b07c4d505f1ba))
+
 ## [1.7.0](https://github.com/bitcoinvault/explorer/compare/v1.6.2...v1.7.0) (2021-07-15)
 
 
